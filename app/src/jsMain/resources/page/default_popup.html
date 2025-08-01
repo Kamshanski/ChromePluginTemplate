@@ -8,7 +8,6 @@
 		body {
             font-family: sans-serif;
             text-align: center;
-            padding-top: 50px;
 			margin: 0 auto; /* Center the body */
         }
 
@@ -33,8 +32,13 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
-            margin-top: 40px;
         }
+
+		#bookmarks_count_button {
+			background-color: #FFB6C1; /* Pale Red */
+			margin-top: 40px;
+			color: black;
+		}
 	</style>
 </head>
 <body>
@@ -42,8 +46,10 @@
 		<h1 id="header">Это пример вёрстки</h1>
 		<p>Введите число</p>
 		<input type="number" id="number_input">
-
 		<button id="ok_button">Понятно</button>
+
+		<button id="bookmarks_count_button">Посчитать количество закладок вне папок</button>
+		<p id="bookmarks_count_result"></p>
 	</div>
 </body>
 <!--This script is generated. Therefore, the IDE may complain that it cannot find the file. After building the extension, the script will exist.-->
