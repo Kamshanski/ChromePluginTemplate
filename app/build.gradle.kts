@@ -27,6 +27,8 @@ kotlin {
 
 	sourceSets {
 		jsMain.dependencies {
+			implementation(project(":component-log"))
+
 			implementation(libs.kotlinxSerialization.core)
 			implementation(libs.kotlinxSerialization.json)
 		}
