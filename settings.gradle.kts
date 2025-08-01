@@ -26,4 +26,5 @@ includeDashedProject(":app")
 includeDashedProject(":component-log")
 includeDashedProject(":component-browserdocument")
 
+includeDashedProject(":component-chrome-bookmarks")
 includeDashedProject(":component-chrome-events")
