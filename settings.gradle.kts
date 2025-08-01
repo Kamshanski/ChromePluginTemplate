@@ -24,7 +24,9 @@ fun includeDashedProject(dashedName: String) {
 rootProject.name = "ChromePluginTemplate"
 includeDashedProject(":app")
 includeDashedProject(":component-log")
-includeDashedProject(":component-browserdocument")
 
 includeDashedProject(":component-chrome-bookmarks")
 includeDashedProject(":component-chrome-events")
+
+includeDashedProject(":util-dom")
+includeDashedProject(":util-common")

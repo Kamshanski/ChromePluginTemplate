@@ -30,7 +30,8 @@ kotlin {
 	sourceSets {
 		jsMain.dependencies {
 			implementation(project(":component-log"))
-			implementation(project(":component-browserdocument"))
+			implementation(project(":util-common"))
+			implementation(project(":util-dom"))
 
 			implementation(libs.kotlinxSerialization.core)
 			implementation(libs.kotlinxSerialization.json)
