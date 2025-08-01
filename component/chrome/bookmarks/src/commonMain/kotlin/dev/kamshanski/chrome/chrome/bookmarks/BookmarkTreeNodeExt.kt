@@ -1,4 +1,4 @@
-package dev.kamshanski.chromeplugintemplate.chrome.bookmarks
+package dev.kamshanski.chrome.chrome.bookmarks
 
 import chrome.bookmarks.BookmarkTreeNode
 

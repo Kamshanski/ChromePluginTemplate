@@ -1,4 +1,4 @@
-package dev.kamshanski.chromeplugintemplate.util.common
+package dev.kamshanski.chrome.util.common
 
 import kotlin.js.collections.JsReadonlyArray
 

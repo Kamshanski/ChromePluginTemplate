@@ -1,11 +1,11 @@
-package dev.kamshanski.chromeplugintemplate
+package dev.kamshanski.chrome
 
 import chrome.bookmarks.FolderType
-import dev.kamshanski.chromeplugintemplate.chrome.bookmarks.BookmarksSuspendApi
-import dev.kamshanski.chromeplugintemplate.chrome.bookmarks.isFile
-import dev.kamshanski.chromeplugintemplate.util.common.asList
-import dev.kamshanski.chromeplugintemplate.component.log.i
-import dev.kamshanski.chromeplugintemplate.utll.dom.firstElementById
+import dev.kamshanski.chrome.chrome.bookmarks.BookmarksSuspendApi
+import dev.kamshanski.chrome.chrome.bookmarks.isFile
+import dev.kamshanski.chrome.util.common.asList
+import dev.kamshanski.chrome.component.log.i
+import dev.kamshanski.chrome.utll.dom.firstElementById
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope

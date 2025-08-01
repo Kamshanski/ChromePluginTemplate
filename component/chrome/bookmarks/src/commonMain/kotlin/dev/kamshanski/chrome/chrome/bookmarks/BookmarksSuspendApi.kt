@@ -1,4 +1,4 @@
-package dev.kamshanski.chromeplugintemplate.chrome.bookmarks
+package dev.kamshanski.chrome.chrome.bookmarks
 
 import chrome.BookmarksApi
 import chrome.bookmarks.BookmarkTreeNode
@@ -13,7 +13,7 @@ import chrome.bookmarks.UpdateChanges
 import chrome.events.Event
 import kotlinx.coroutines.await
 import kotlin.js.collections.JsReadonlyArray
-import dev.kamshanski.chromeplugintemplate.util.common.asList
+import dev.kamshanski.chrome.util.common.asList
 
 @Suppress("unused")
 object BookmarksSuspendApi {
