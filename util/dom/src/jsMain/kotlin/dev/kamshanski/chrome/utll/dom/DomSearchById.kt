@@ -1,4 +1,4 @@
-package dev.kamshanski.chromeplugintemplate.utll.dom
+package dev.kamshanski.chrome.utll.dom
 
 import org.w3c.dom.Document
 import org.w3c.dom.Element

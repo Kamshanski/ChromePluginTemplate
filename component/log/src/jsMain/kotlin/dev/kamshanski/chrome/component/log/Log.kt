@@ -1,4 +1,4 @@
-package dev.kamshanski.chromeplugintemplate.component.log
+package dev.kamshanski.chrome.component.log
 
 enum class LogL {
 	INFO,
