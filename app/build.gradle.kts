@@ -1,3 +1,5 @@
+import optin.defaultOptInOption
+import org.gradle.api.file.DuplicatesStrategy.FAIL
 import org.jetbrains.kotlin.gradle.dsl.JsSourceMapEmbedMode
 import org.jetbrains.kotlin.gradle.dsl.JsSourceMapNamesPolicy
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
@@ -36,6 +38,10 @@ kotlin {
 		jsTest.dependencies {
 			implementation(libs.kotlin.test)
 		}
+	}
+
+	compilerOptions {
+		optIn.defaultOptInOption()
 	}
 }
 

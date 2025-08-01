@@ -1,3 +1,5 @@
+import optin.defaultOptInOption
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinxSerialization)
@@ -24,5 +26,9 @@ kotlin {
     sourceSets {
         jsMain.dependencies {
         }
+    }
+
+    compilerOptions {
+        optIn.defaultOptInOption()
     }
 }
