@@ -30,11 +30,15 @@ kotlin {
 	sourceSets {
 		jsMain.dependencies {
 			implementation(project(":component-log"))
+			implementation(project(":component-chrome-bookmarks"))
+			implementation(project(":component-chrome-events"))
+
 			implementation(project(":util-common"))
 			implementation(project(":util-dom"))
 
 			implementation(libs.kotlinxSerialization.core)
 			implementation(libs.kotlinxSerialization.json)
+			implementation(libs.kotlinxCoroutines.core)
 		}
 		jsTest.dependencies {
 			implementation(libs.kotlin.test)
