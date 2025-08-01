@@ -1,9 +1,9 @@
 package dev.kamshanski.chrome
 
-import chrome.bookmarks.FolderType
 import dev.kamshanski.chrome.chrome.bookmarks.BookmarksSuspendApi
+import dev.kamshanski.chrome.chrome.bookmarks.findBookmarksBarNodeOrNull
+import dev.kamshanski.chrome.chrome.bookmarks.childList
 import dev.kamshanski.chrome.chrome.bookmarks.isFile
-import dev.kamshanski.chrome.util.common.asList
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.utll.dom.firstElementById
 import kotlinx.browser.document
@@ -40,9 +40,9 @@ fun main() {
 		bookmarksCountButton.setOnClickListener {
 			scope.launch {
 				with(BookmarksSuspendApi) {
-					val root = getTree()
-					val bookmarksBar = root[0].children?.asList()?.firstOrNull { it.folderType == FolderType.BOOKMARKS_BAR.value }
-					val files = bookmarksBar?.children?.asList().orEmpty().filter { it.isFile }
+					val root = getTree().first()
+					val bookmarksBar = root.findBookmarksBarNodeOrNull()
+					val files = bookmarksBar?.childList?.filter { it.isFile } ?: error("No files found")
 
 					val count = files.count()
 					val item = files.random()
