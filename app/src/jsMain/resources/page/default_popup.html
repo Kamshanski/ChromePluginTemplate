@@ -17,6 +17,9 @@
 			height: 100%;
 			background-color: #FFFFE0; /* Pale Yellow */
 			margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 		}
 
         button {
@@ -30,13 +33,20 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            margin-top: 40px;
         }
 	</style>
 </head>
 <body>
 	<div class="container">
-		<h1>Это пример вёрстки</h1>
-		<button>Понятно</button>
+		<h1 id="header">Это пример вёрстки</h1>
+		<p>Введите число</p>
+		<input type="number" id="number_input">
+
+		<button id="ok_button">Понятно</button>
 	</div>
 </body>
+<!--This script is generated. Therefore, the IDE may complain that it cannot find the file. After building the extension, the script will exist.-->
+<!--suppress HtmlUnknownTarget -->
+<script src="../app.js"></script>
 </html>
