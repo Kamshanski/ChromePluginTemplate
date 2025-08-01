@@ -38,6 +38,10 @@ kotlin {
 	}
 }
 
+chromePlugin {
+
+}
+
 tasks.withType<Kotlin2JsCompile>().configureEach {
 	compilerOptions.sourceMapNamesPolicy.set(JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_FQ_NAMES)
 	compilerOptions.sourceMapEmbedSources.set(JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_ALWAYS)
