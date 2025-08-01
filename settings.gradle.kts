@@ -13,3 +13,13 @@ dependencyResolutionManagement {
 		mavenCentral()
 	}
 }
+
+fun includeDashedProject(dashedName: String) {
+	val path = dashedName.trimStart(':').replace("-", "/")
+
+	include(dashedName)
+	project(dashedName).projectDir = file("$rootDir/$path")
+}
+
+rootProject.name = "ChromePluginTemplate"
+includeDashedProject(":app")
