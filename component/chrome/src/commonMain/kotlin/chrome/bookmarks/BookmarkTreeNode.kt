@@ -35,7 +35,7 @@ external interface BookmarkTreeNode {
 	var id: String
 
 	/** The 0-based position of this node within its parent folder. */
-	var index: Double?
+	var index: Int?
 
 	/** The `id` of the parent folder. Omitted for the root node. */
 	var parentId: String?

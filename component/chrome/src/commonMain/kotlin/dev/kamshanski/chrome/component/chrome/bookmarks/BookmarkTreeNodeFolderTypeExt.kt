@@ -1,4 +1,4 @@
-package dev.kamshanski.chrome.chrome.bookmarks
+package dev.kamshanski.chrome.component.chrome.bookmarks
 
 import chrome.bookmarks.BookmarkTreeNode
 import chrome.bookmarks.FolderType

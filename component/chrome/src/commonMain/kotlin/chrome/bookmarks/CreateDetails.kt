@@ -5,7 +5,7 @@ package chrome.bookmarks
 /** Object passed to the create() function. */
 external interface CreateDetails {
 
-	var index: Double?
+	var index: Int?
 
 	/** Defaults to the Other Bookmarks folder. */
 	var parentId: String?

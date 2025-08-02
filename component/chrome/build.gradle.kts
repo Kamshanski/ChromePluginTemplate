@@ -26,7 +26,6 @@ kotlin {
     sourceSets {
         jsMain.dependencies {
             implementation(project(":component-log"))
-            implementation(project(":component-chrome-events"))
             implementation(project(":util-common"))
             implementation(libs.kotlinxCoroutines.core)
         }

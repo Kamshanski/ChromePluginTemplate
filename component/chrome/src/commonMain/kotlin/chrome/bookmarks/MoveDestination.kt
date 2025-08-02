@@ -5,5 +5,5 @@ package chrome.bookmarks
 external interface MoveDestination {
 
 	var parentId: String?
-	var index: Double?
+	var index: Int?
 }

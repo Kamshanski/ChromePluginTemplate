@@ -30,8 +30,7 @@ kotlin {
 	sourceSets {
 		jsMain.dependencies {
 			implementation(project(":component-log"))
-			implementation(project(":component-chrome-bookmarks"))
-			implementation(project(":component-chrome-events"))
+			implementation(project(":component-chrome"))
 
 			implementation(project(":util-common"))
 			implementation(project(":util-dom"))

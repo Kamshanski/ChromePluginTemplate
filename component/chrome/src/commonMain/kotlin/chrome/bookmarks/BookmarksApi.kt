@@ -1,16 +1,5 @@
-@file:JsQualifier("chrome")
+package chrome.bookmarks
 
-package chrome
-
-import chrome.bookmarks.BookmarkTreeNode
-import chrome.bookmarks.ChangeInfo
-import chrome.bookmarks.CreateDetails
-import chrome.bookmarks.MoveDestination
-import chrome.bookmarks.MoveInfo
-import chrome.bookmarks.RemoveInfo
-import chrome.bookmarks.ReorderInfo
-import chrome.bookmarks.SearchQuery
-import chrome.bookmarks.UpdateChanges
 import chrome.events.Event
 import kotlin.js.Promise
 import kotlin.js.collections.JsReadonlyArray

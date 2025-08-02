@@ -1,9 +1,9 @@
 package dev.kamshanski.chrome
 
-import dev.kamshanski.chrome.chrome.bookmarks.BookmarksSuspendApi
-import dev.kamshanski.chrome.chrome.bookmarks.findBookmarksBarNodeOrNull
-import dev.kamshanski.chrome.chrome.bookmarks.childList
-import dev.kamshanski.chrome.chrome.bookmarks.isFile
+import dev.kamshanski.chrome.component.chrome.bookmarks.BookmarksSuspendApi
+import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
+import dev.kamshanski.chrome.component.chrome.bookmarks.childList
+import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.utll.dom.firstElementById
 import kotlinx.browser.document

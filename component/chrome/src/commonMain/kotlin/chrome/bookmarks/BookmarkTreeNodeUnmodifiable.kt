@@ -11,7 +11,7 @@ enum class BookmarkTreeNodeUnmodifiable(val value: String) {
 
 	companion object {
 
-		fun byStringOrNull(value: String): BookmarkTreeNodeUnmodifiable? = BookmarkTreeNodeUnmodifiable.entries.firstOrNull { it.value == value }
+		fun byStringOrNull(value: String): BookmarkTreeNodeUnmodifiable? = entries.firstOrNull { it.value == value }
 		fun byString(value: String): BookmarkTreeNodeUnmodifiable = byStringOrNull(value) ?: throw NoSuchElementException("BookmarkTreeNodeUnmodifiable $value")
 	}
 }

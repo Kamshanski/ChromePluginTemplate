@@ -5,7 +5,7 @@ package chrome.bookmarks
 external interface MoveInfo {
 
 	var parentId: String
-	var index: Double
+	var index: Int
 	var oldParentId: String
-	var oldIndex: Double
+	var oldIndex: Int
 }

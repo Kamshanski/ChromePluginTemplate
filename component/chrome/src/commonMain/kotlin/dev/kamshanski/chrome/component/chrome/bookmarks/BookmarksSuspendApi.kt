@@ -1,6 +1,6 @@
-package dev.kamshanski.chrome.chrome.bookmarks
+package dev.kamshanski.chrome.component.chrome.bookmarks
 
-import chrome.BookmarksApi
+import chrome.bookmarks.BookmarksApi
 import chrome.bookmarks.BookmarkTreeNode
 import chrome.bookmarks.ChangeInfo
 import chrome.bookmarks.CreateDetails

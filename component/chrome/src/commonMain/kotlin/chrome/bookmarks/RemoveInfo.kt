@@ -5,7 +5,7 @@ package chrome.bookmarks
 external interface RemoveInfo {
 
 	var parentId: String
-	var index: Double
+	var index: Int
 
 	/** @since Chrome 48 */
 	var node: BookmarkTreeNode

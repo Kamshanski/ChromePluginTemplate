@@ -25,8 +25,7 @@ rootProject.name = "ChromePluginTemplate"
 includeDashedProject(":app")
 includeDashedProject(":component-log")
 
-includeDashedProject(":component-chrome-bookmarks")
-includeDashedProject(":component-chrome-events")
+includeDashedProject(":component-chrome")
 
 includeDashedProject(":util-dom")
 includeDashedProject(":util-common")
