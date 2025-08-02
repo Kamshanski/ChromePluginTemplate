@@ -3,6 +3,7 @@
 package chrome.runtime
 
 import chrome.extensiontypes.DocumentLifecycle
+import chrome.tabs.Tab
 
 /** An object containing information about the script context that sent a message or request */
 external interface MessageSender {
@@ -11,7 +12,7 @@ external interface MessageSender {
 	var id: String?
 
 	/** The {@link tabs.Tab} which opened the connection, if any. This property will **only** be present when the connection was opened from a tab (including content scripts), and **only** if the receiver is an extension, not an app. */
-	var tab: Any? // TODO put Tab class from tabs
+	var tab: Tab?
 
 	/**
 	 * The name of the native application that opened the connection, if any.

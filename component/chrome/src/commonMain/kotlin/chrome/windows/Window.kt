@@ -1,12 +1,14 @@
+@file:JsQualifier("chrome.windows")
+
 package chrome.windows
 
 import chrome.tabs.Tab
 import kotlin.js.collections.JsReadonlyArray
 
-interface Window {
+external interface Window {
 
 	/** Array of {@link tabs.Tab} objects representing the current tabs in the window. */
-	var tabs: JsReadonlyArray<Any>? // TODO replace ANY with Tab from chrome.tabs
+	var tabs: JsReadonlyArray<Tab>?
 
 	/** The offset of the window from the top edge of the screen in pixels. In some circumstances a window may not be assigned a `top` property; for example, when querying closed windows from the {@link sessions} API. */
 	var top: Int?
