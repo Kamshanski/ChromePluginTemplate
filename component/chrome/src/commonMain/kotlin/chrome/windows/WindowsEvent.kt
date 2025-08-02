@@ -1,3 +1,5 @@
+@file:JsQualifier("chrome.windows")
+
 package chrome.windows
 
 import chrome.events.Event
