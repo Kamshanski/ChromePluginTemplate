@@ -1,3 +1,5 @@
+@file:JsQualifier("chrome")
+
 package chrome.bookmarks
 
 import chrome.events.Event
@@ -6,6 +8,11 @@ import kotlin.js.collections.JsReadonlyArray
 
 @Suppress("unused")
 @JsName("bookmarks")
+/**
+ * Use the `chrome.bookmarks` API to create, organize, and otherwise manipulate bookmarks. Also see Override Pages, which you can use to create a custom Bookmark Manager page.
+ *
+ * Permissions: "bookmarks"
+ */
 external object ChromeBookmarks {
 
 	/** @deprecated Bookmark write operations are no longer limited by Chrome. */
