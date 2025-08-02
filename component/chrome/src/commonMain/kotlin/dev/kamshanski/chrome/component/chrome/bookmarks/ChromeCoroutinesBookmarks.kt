@@ -1,6 +1,6 @@
 package dev.kamshanski.chrome.component.chrome.bookmarks
 
-import chrome.bookmarks.BookmarksApi
+import chrome.bookmarks.ChromeBookmarks
 import chrome.bookmarks.BookmarkTreeNode
 import chrome.bookmarks.ChangeInfo
 import chrome.bookmarks.CreateDetails
@@ -16,28 +16,28 @@ import kotlin.js.collections.JsReadonlyArray
 import dev.kamshanski.chrome.util.common.asList
 
 @Suppress("unused")
-object BookmarksSuspendApi {
+object ChromeCoroutinesBookmarks {
 
 	/** Fired when a bookmark or folder changes. **Note:** Currently, only title and url changes trigger this.*/
-	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> = BookmarksApi.onChanged
+	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> = ChromeBookmarks.onChanged
 
 	/** Fired when the children of a folder have changed their order due to the order being sorted in the UI. This is not called as a result of a move(). */
-	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> = BookmarksApi.onChildrenReordered
+	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> = ChromeBookmarks.onChildrenReordered
 
 	/** Fired when a bookmark or folder is created. */
-	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> = BookmarksApi.onCreated
+	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> = ChromeBookmarks.onCreated
 
 	/** Fired when a bookmark import session is begun. Expensive observers should ignore onCreated updates until onImportEnded is fired. Observers should still handle other notifications immediately. */
-	val onImportBegan: Event<() -> Unit> = BookmarksApi.onImportBegan
+	val onImportBegan: Event<() -> Unit> = ChromeBookmarks.onImportBegan
 
 	/** Fired when a bookmark import session is ended.  */
-	val onImportEnded: Event<() -> Unit> = BookmarksApi.onImportEnded
+	val onImportEnded: Event<() -> Unit> = ChromeBookmarks.onImportEnded
 
 	/** Fired when a bookmark or folder is moved to a different parent folder. */
-	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> = BookmarksApi.onMoved
+	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> = ChromeBookmarks.onMoved
 
 	/** Fired when a bookmark or folder is removed. When a folder is removed recursively, a single notification is fired for the folder, and none for its contents. */
-	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> = BookmarksApi.onRemoved
+	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> = ChromeBookmarks.onRemoved
 
 	/**
 	 * Creates a bookmark or folder under the specified parentId. If url is NULL or missing, it will be a folder.
@@ -45,7 +45,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome 90.
 	 */
 	suspend fun create(bookmark: CreateDetails): BookmarkTreeNode =
-		BookmarksApi.create(bookmark).await()
+		ChromeBookmarks.create(bookmark).await()
 
 	/**
 	 * Retrieves the entire Bookmarks hierarchy.
@@ -53,7 +53,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome 90
 	 */
 	suspend fun getTree(): List<BookmarkTreeNode> {
-		return BookmarksApi.getTree().await().asList()
+		return ChromeBookmarks.getTree().await().asList()
 	}
 
 	/**
@@ -63,7 +63,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome 90.
 	 */
 	suspend fun get(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.get(id).await()
+		ChromeBookmarks.get(id).await()
 
 	/**
 	 * Retrieves the specified BookmarkTreeNode(s).
@@ -74,7 +74,7 @@ object BookmarksSuspendApi {
 	suspend fun get(
 		idList: Array<String>
 	): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.get(idList).await()
+		ChromeBookmarks.get(idList).await()
 
 	/**
 	 * Retrieves the children of the specified BookmarkTreeNode id.
@@ -82,7 +82,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun getChildren(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.getChildren(id).await()
+		ChromeBookmarks.getChildren(id).await()
 
 	/**
 	 * Retrieves the recently added bookmarks.
@@ -91,7 +91,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun getRecent(numberOfItems: Double): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.getRecent(numberOfItems).await()
+		ChromeBookmarks.getRecent(numberOfItems).await()
 
 	/**
 	 * Retrieves part of the Bookmarks hierarchy, starting at the specified node.
@@ -100,7 +100,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun getSubTree(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.getSubTree(id).await()
+		ChromeBookmarks.getSubTree(id).await()
 
 	/**
 	 * Moves the specified BookmarkTreeNode to the provided location.
@@ -108,7 +108,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun move(id: String, destination: MoveDestination): BookmarkTreeNode =
-		BookmarksApi.move(id, destination).await()
+		ChromeBookmarks.move(id, destination).await()
 
 	/**
 	 * Removes a bookmark or an empty bookmark folder.
@@ -116,7 +116,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun remove(id: String) =
-		BookmarksApi.remove(id).await()
+		ChromeBookmarks.remove(id).await()
 
 	/**
 	 * Recursively removes a bookmark folder.
@@ -124,7 +124,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun removeTree(id: String) =
-		BookmarksApi.removeTree(id).await()
+		ChromeBookmarks.removeTree(id).await()
 
 	/**
 	 * Searches for BookmarkTreeNodes matching the given query. Queries specified with an object produce BookmarkTreeNodes matching all specified properties.
@@ -133,7 +133,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun search(query: String): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.search(query).await()
+		ChromeBookmarks.search(query).await()
 
 	/**
 	 * Searches for BookmarkTreeNodes matching the given query. Queries specified with an object produce BookmarkTreeNodes matching all specified properties.
@@ -142,7 +142,7 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun search(query: SearchQuery): JsReadonlyArray<BookmarkTreeNode> =
-		BookmarksApi.search(query).await()
+		ChromeBookmarks.search(query).await()
 
 	/**
 	 * Updates the properties of a bookmark or folder. Specify only the properties that you want to change; unspecified properties will be left unchanged. **Note:** Currently, only 'title' and 'url' are supported.
@@ -150,6 +150,6 @@ object BookmarksSuspendApi {
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
 	suspend fun update(id: String, changes: UpdateChanges): BookmarkTreeNode =
-		BookmarksApi.update(id, changes).await()
+		ChromeBookmarks.update(id, changes).await()
 }
 

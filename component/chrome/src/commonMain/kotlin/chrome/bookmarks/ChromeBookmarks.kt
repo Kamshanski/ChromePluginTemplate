@@ -6,7 +6,7 @@ import kotlin.js.collections.JsReadonlyArray
 
 @Suppress("unused")
 @JsName("bookmarks")
-external object BookmarksApi {
+external object ChromeBookmarks {
 
 	/** @deprecated Bookmark write operations are no longer limited by Chrome. */
 	val MAX_WRITE_OPERATIONS_PER_HOUR: Double /* 1000000 */
