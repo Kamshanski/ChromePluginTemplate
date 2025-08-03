@@ -1,62 +1,67 @@
 package dev.kamshanski.chrome
 
-import dev.kamshanski.chrome.component.chrome.bookmarks.ChromeCoroutinesBookmarks
-import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
-import dev.kamshanski.chrome.component.chrome.bookmarks.childList
-import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
-import dev.kamshanski.chrome.component.log.i
+import dev.kamshanski.chrome.presentation.MainPresenter
+import dev.kamshanski.chrome.presentation.MainState
+import dev.kamshanski.chrome.presentation.VostorgState
 import dev.kamshanski.chrome.utll.dom.firstElementById
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import org.w3c.dom.GlobalEventHandlers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLHeadingElement
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.HTMLParagraphElement
-import org.w3c.dom.events.Event
 
-val header: HTMLHeadingElement get() = document.firstElementById("header")
-val okButton: HTMLButtonElement get() = document.firstElementById("ok_button")
-val numberInput: HTMLInputElement get() = document.firstElementById("number_input")
-val bookmarksCountButton: HTMLButtonElement get() = document.firstElementById("bookmarks_count_button")
-val bookmarksCountResult: HTMLParagraphElement get() = document.firstElementById("bookmarks_count_result")
+val urlInput: HTMLInputElement get() = document.firstElementById("url_input")
+val patternInput: HTMLInputElement get() = document.firstElementById("pattern_input")
+val replaceButton: HTMLButtonElement get() = document.firstElementById("replace_button")
+val message: HTMLParagraphElement get() = document.firstElementById("message")
 
 fun main() {
-	i { "Extension script loaded" }
-
 	val scope = MainScope()
+	val mainPresenter = MainPresenter()
 	window.onload = {
-		i { "Extension default popup opened" }
+		mainPresenter.state
+			.onEach { state -> updateState(state) }
+			.launchIn(scope)
 
-		val originalHeaderText = header.textContent ?: ""
-
-		okButton.setOnClickListener {
-			val inputValue = numberInput.value.toIntOrNull()
-			header.textContent = originalHeaderText + " " + inputValue
+		urlInput.oninput = { event ->
+			mainPresenter.setVostorgReplacement(urlInput.value)
 		}
-
-		bookmarksCountButton.setOnClickListener {
-			scope.launch {
-				with(ChromeCoroutinesBookmarks) {
-					val root = getTree().first()
-					val bookmarksBar = root.findBookmarksBarNodeOrNull()
-					val files = bookmarksBar?.childList?.filter { it.isFile } ?: error("No files found")
-
-					val count = files.count()
-					val item = files.random()
-
-					bookmarksCountResult.textContent = "Вне папок находится $count закладок. Рандомная - ${item.title}"
-				}
-			}
+		patternInput.oninput = { event ->
+			mainPresenter.setVostorgPattern(patternInput.value)
+		}
+		replaceButton.onclick = {
+			mainPresenter.replaceEverywhere()
 		}
 	}
 }
 
-fun GlobalEventHandlers.setOnClickListener(listener: (event: Event) -> Unit) {
-	this.onclick = {
-		listener(it)
+private fun updateState(state: MainState) {
+	urlInput.value = state.vostorgReplacement
+	patternInput.value = state.vostorgPattern
+
+	when (val vostorgState = state.vostorgState) {
+		is VostorgState.None      -> {
+			setViewsAbility(false)
+			message.textContent = ""
+		}
+
+		is VostorgState.Failed    -> {
+			setViewsAbility(false)
+			message.textContent = vostorgState.message ?: "Some error occured. See logs for more details"
+		}
+
+		is VostorgState.Replacing -> {
+			setViewsAbility(true)
+			message.textContent = ""
+		}
 	}
 }
 
+fun setViewsAbility(disabled: Boolean) {
+	urlInput.disabled = disabled
+	patternInput.disabled = disabled
+	replaceButton.disabled = disabled
+}

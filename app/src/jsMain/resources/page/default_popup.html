@@ -34,22 +34,25 @@
             cursor: pointer;
         }
 
-		#bookmarks_count_button {
-			background-color: #FFB6C1; /* Pale Red */
+		#replace_button {
+		}
+
+		#message {
 			margin-top: 40px;
-			color: black;
+
 		}
 	</style>
 </head>
 <body>
 	<div class="container">
-		<h1 id="header">Это пример вёрстки</h1>
-		<p>Введите число</p>
-		<input type="number" id="number_input">
-		<button id="ok_button">Понятно</button>
+		<h1 id="header">Обновление закладок AnimeVost.org</h1>
+		<p>Новая ссылка</p>
+		<input type="url" id="url_input">
+		<p>Что нужно заменить (Regex)</p>
+		<input type="text" id="pattern_input">
+		<button id="replace_button">Заменить</button>
 
-		<button id="bookmarks_count_button">Посчитать количество закладок вне папок</button>
-		<p id="bookmarks_count_result"></p>
+		<p id="message"></p>
 	</div>
 </body>
 <!--This script is generated. Therefore, the IDE may complain that it cannot find the file. After building the extension, the script will exist.-->
