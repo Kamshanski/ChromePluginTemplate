@@ -1,7 +1,6 @@
 package chrome.runtime
 
-import dev.kamshanski.chrome.util.common.mapToArray
-
+@OptIn(ExperimentalJsExport::class)
 fun ContextFilter(
 	contextIds: List<String>? = null,
 	contextTypes: List<ContextType>? = null,
@@ -14,13 +13,13 @@ fun ContextFilter(
 	windowIds: List<Double>? = null,
 ): ContextFilter =
 	js("{}").unsafeCast<ContextFilter>().apply {
-		this.contextIds = contextIds?.mapToArray { it }
-		this.contextTypes = contextTypes?.mapToArray { it }
-		this.documentIds = documentIds?.mapToArray { it }
-		this.documentOrigins = documentOrigins?.mapToArray { it }
-		this.documentUrls = documentUrls?.mapToArray { it }
-		this.frameIds = frameIds?.mapToArray { it }
+		this.contextIds = contextIds?.asJsReadonlyArrayView()
+		this.contextTypes = contextTypes?.asJsReadonlyArrayView()
+		this.documentIds = documentIds?.asJsReadonlyArrayView()
+		this.documentOrigins = documentOrigins?.asJsReadonlyArrayView()
+		this.documentUrls = documentUrls?.asJsReadonlyArrayView()
+		this.frameIds = frameIds?.asJsReadonlyArrayView()
 		this.incognito = incognito
-		this.tabIds = tabIds?.mapToArray { it }
-		this.windowIds = windowIds?.mapToArray { it }
+		this.tabIds = tabIds?.asJsReadonlyArrayView()
+		this.windowIds = windowIds?.asJsReadonlyArrayView()
 	}

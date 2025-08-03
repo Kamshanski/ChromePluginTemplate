@@ -1,5 +1,7 @@
 package chrome.windows
 
+import kotlin.js.collections.JsReadonlyArray
+
 /** @since Chrome 88 */
 interface QueryOptions {
 
@@ -7,5 +9,5 @@ interface QueryOptions {
 	var populate: Boolean?
 
 	/** If set, the {@link windows.Window} returned is filtered based on its type. If unset, the default filter is set to `['normal', 'popup']`. */
-	var windowTypes: Array<WindowType>?
+	var windowTypes: JsReadonlyArray<WindowType>?
 }
