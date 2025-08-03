@@ -1,5 +1,5 @@
 {
-  "name": "Chrome Plugin Template",
+  "name": "Dawande Plugin",
   "version": "1.0.0",
   "manifest_version": 3,
   "permissions": ["storage", "tabs", "activeTab", "scripting", "bookmarks"],
@@ -9,7 +9,7 @@
       "24": "image/sample_image.jpeg",
       "32": "image/sample_image.jpeg"
     },
-	"default_title": "Chrome Plugin Template",
+	"default_title": "Dawande Plugin",
     "default_popup": "page/default_popup.html"
   }
 }
