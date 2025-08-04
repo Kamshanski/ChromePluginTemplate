@@ -101,7 +101,7 @@ external object ChromeRuntime {
 	 * Can return its result via Promise in Manifest V3 or later since Chrome 109.
 	 */
 	fun requestUpdateCheck(): Promise<RequestUpdateCheckResult>
-	fun requestUpdateCheck(callback: (status: String /* `${RequestUpdateCheckStatus}` */, details: UpdateCheckDetails? /* use undefined for default */) -> Unit)
+	fun requestUpdateCheck(callback: (status: RequestUpdateCheckStatus, details: UpdateCheckDetails? /* use undefined for default */) -> Unit)
 
 	/** Restart the ChromeOS device when the app runs in kiosk mode. Otherwise, it's no-op. */
 	fun restart()
@@ -191,7 +191,7 @@ external object ChromeRuntime {
 	val onMessageExternal: Event<(message: Any?, sender: MessageSender, sendResponse: (response: Any? /* use undefined for default */) -> Unit) -> Unit>
 
 	/** Fired when an app or the device that it runs on needs to be restarted. The app should close all its windows at its earliest convenient time to let the restart to happen. If the app does nothing, a restart will be enforced after a 24-hour grace period has passed. Currently, this event is only fired for Chrome OS kiosk apps. */
-	val onRestartRequired: Event<(reason: String /* `${OnRestartRequiredReason}` */) -> Unit>
+	val onRestartRequired: Event<(reason: OnRestartRequiredReason) -> Unit>
 
 	/** Fired when an update is available, but isn't installed immediately because the app is currently running. If you do nothing, the update will be installed the next time the background page gets unloaded, if you want it to be installed sooner you can explicitly call chrome.runtime.reload(). If your extension is using a persistent background page, the background page of course never gets unloaded, so unless you call chrome.runtime.reload() manually in response to this event the update will not get installed until the next time Chrome itself restarts. If no handlers are listening for this event, and your extension has a persistent background page, it behaves as if chrome.runtime.reload() is called in response to this event. */
 	val onUpdateAvailable: Event<(details: UpdateAvailableDetails) -> Unit>

@@ -44,7 +44,7 @@ external interface OnUpdatedInfo {
 	var pinned: Boolean?
 
 	/** The tab's loading status. */
-	var status: (String /* `${TabStatus}` */)?
+	var status: TabStatus?
 
 	/**
 	 * The tab's new title.

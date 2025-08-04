@@ -1,7 +1,6 @@
 package chrome.tabs
 
-import chrome.extensiontypes.RunAt
-import chrome.extensiontypes.RunAtEnum
+import chrome.tabs.constant.ZoomSettingsModeJsEnum
 
 /**
  * Defines how zoom changes are handled, i.e., which entity is responsible for the actual scaling of the page; defaults to `automatic`.
@@ -9,23 +8,22 @@ import chrome.extensiontypes.RunAtEnum
  */
 typealias ZoomSettingsMode = String
 
-enum class ZoomSettingsModeEnum {
+enum class ZoomSettingsModeEnum(private val valueProvider: ZoomSettingsModeJsEnum.() -> ZoomSettingsMode) {
 
 	/** Zoom changes are handled automatically by the browser. */
-	automatic,
+	AUTOMATIC({ AUTOMATIC }),
 
 	/** Overrides the automatic handling of zoom changes. The `onZoomChange` event will still be dispatched, and it is the extension's responsibility to listen for this event and manually scale the page. This mode does not support `per-origin` zooming, and thus ignores the `scope` zoom setting and assumes `per-tab`. */
-	manual,
+	MANUAL({ MANUAL }),
 
 	/** Disables all zooming in the tab. The tab reverts to the default zoom level, and all attempted zoom changes are ignored. */
-	disabled,
+	DISABLED({ DISABLED }),
 	;
 
-
-	val value: RunAt = name
+	val value: ZoomSettingsMode get() = valueProvider(ZoomSettingsModeJsEnum)
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: ZoomSettingsMode): ZoomSettingsModeEnum = ZoomSettingsModeEnum.valueOf(value)
 	}
 }

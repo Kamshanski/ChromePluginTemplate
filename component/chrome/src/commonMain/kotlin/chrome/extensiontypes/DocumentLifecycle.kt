@@ -17,7 +17,7 @@ enum class DocumentLifecycleEnum {
 	pending_deletion,
 	;
 
-	val value: DocumentLifecycle = name
+	val value: DocumentLifecycle get() = name
 
 	companion object {
 

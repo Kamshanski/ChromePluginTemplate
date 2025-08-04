@@ -2,6 +2,7 @@
 
 package chrome.runtime
 
+import chrome.scripting.ExecutionWorld
 import kotlin.js.collections.JsReadonlyArray
 
 external interface ContentScriptV3 {
@@ -15,5 +16,5 @@ external interface ContentScriptV3 {
 	var match_about_blank: Boolean?
 	var include_globs: JsReadonlyArray<String>?
 	var exclude_globs: JsReadonlyArray<String>?
-	var world: World?
+	var world: ExecutionWorld?
 }

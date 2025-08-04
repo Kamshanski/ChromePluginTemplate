@@ -1,30 +1,32 @@
 package chrome.windows
 
+import chrome.windows.constant.WindowStateJsEnum
+
 /**
  * The state of this browser window. In some circumstances a window may not be assigned a `state` property; for example, when querying closed windows from the {@link sessions} API.
  * @since Chrome 44
  */
 typealias WindowState = String
 
-enum class WindowStateEnum {
+enum class WindowStateEnum(private val valueProvider: WindowStateJsEnum.() -> WindowState) {
 
 	/** Normal window state (not minimized, maximized, or fullscreen). */
-	normal,
+	NORMAL({ NORMAL }),
 
 	/** Minimized window state. */
-	minimized,
+	MINIMIZED({ MINIMIZED }),
 
 	/** Maximized window state. */
-	maximized,
+	MAXIMIZED({ MAXIMIZED }),
 
 	/** Fullscreen window state. */
-	fullscreen,
+	FULLSCREEN({ FULLSCREEN }),
 
 	/** Locked fullscreen window state. This fullscreen state cannot be exited by user action and is available only to allowlisted extensions on Chrome OS. */
-	`locked-fullscreen`,
+	LOCKED_FULLSCREEN({ LOCKED_FULLSCREEN }),
 	;
 
-	val value: WindowState = name
+	val value: WindowState get() = valueProvider(WindowStateJsEnum)
 
 	companion object {
 

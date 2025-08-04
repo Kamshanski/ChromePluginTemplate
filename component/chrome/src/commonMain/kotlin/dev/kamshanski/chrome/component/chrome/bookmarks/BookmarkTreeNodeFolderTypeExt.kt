@@ -1,10 +1,10 @@
 package dev.kamshanski.chrome.component.chrome.bookmarks
 
 import chrome.bookmarks.BookmarkTreeNode
-import chrome.bookmarks.FolderType
+import chrome.bookmarks.FolderTypeEnum
 
 val BookmarkTreeNode.bookmarksBarFolder: Boolean
-	get() = folderType == FolderType.BOOKMARKS_BAR.value
+	get() = folderType == FolderTypeEnum.BOOKMARKS_BAR.value
 
 fun BookmarkTreeNode.findBookmarksBarNodeOrNull(): BookmarkTreeNode? {
 	if (bookmarksBarFolder) {

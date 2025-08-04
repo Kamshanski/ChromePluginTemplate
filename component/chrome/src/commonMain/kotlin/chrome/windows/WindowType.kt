@@ -1,29 +1,31 @@
 package chrome.windows
 
+import chrome.windows.constant.WindowTypeJsEnum
+
 /**
  * The type of browser window this is. In some circumstances a window may not be assigned a `type` property; for example, when querying closed windows from the {@link sessions} API.
  * @since Chrome 44
  */
 typealias WindowType = String
 
-enum class WindowTypeEnum {
+enum class WindowTypeEnum(private val valueProvider: WindowTypeJsEnum.() -> WindowType) {
 
 	/** A normal browser window. */
-	normal,
+	NORMAL({ NORMAL }),
 
 	/** A browser popup. */
-	popup,
+	POPUP({ POPUP }),
 
 	/** @deprecated A Chrome App panel-style window. Extensions can only see their own panel windows. */
-	panel,
+	PANEL({ PANEL }),
 
 	/** @deprecated A Chrome App window. Extensions can only see their app own windows. */
-	app,
+	APP({ APP }),
 
 	/** A Developer Tools window. */
-	devtools;
+	DEVTOOLS({ DEVTOOLS });
 
-	val value: WindowType = name
+	val value: WindowType get() = valueProvider(WindowTypeJsEnum)
 
 	companion object {
 

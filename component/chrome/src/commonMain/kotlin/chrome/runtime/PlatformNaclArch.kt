@@ -1,33 +1,31 @@
 package chrome.runtime
 
+import chrome.runtime.constant.PlatformNaclArchJsEnum
+
 /**
  * The native client architecture. This may be different from arch on some platforms.
  * @since Chrome 44
  */
 typealias PlatformNaclArch = String
 
-enum class PlatformNaclArchEnum {
+enum class PlatformNaclArchEnum(private val valueProvider: PlatformNaclArchJsEnum.() -> PlatformNaclArch) {
 
 	/** Specifies the native client architecture as arm. */
-	arm,
+	ARM({ ARM }),
 
 	/** Specifies the native client architecture as x86-32. */
-	`x86-32`,
+	X86_32({ X86_32 }),
 
 	/** Specifies the native client architecture as x86-64. */
-	`x86-64`,
+	X86_64({ X86_64 }),
 
 	/** Specifies the native client architecture as mips. */
-	mips,
+	MIPS({ MIPS }),
 
 	/** Specifies the native client architecture as mips64. */
-	mips64,
+	MIPS64({ MIPS64 });
 
-	/** Specifies the native client architecture as riscv64. */
-	riscv64,
-	;
-
-	val value: PlatformNaclArch = name
+	val value: PlatformNaclArch get() = valueProvider(PlatformNaclArchJsEnum)
 
 	companion object {
 

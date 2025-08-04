@@ -1,22 +1,23 @@
 package chrome.tabs
 
-import chrome.extensiontypes.RunAt
-import chrome.extensiontypes.RunAtEnum
+import chrome.tabs.constant.TabStatusJsEnum
 
 /** The tab's loading status. */
 typealias TabStatus = String
 
-enum class TabStatusEnum {
+enum class TabStatusEnum(private val valueProvider: TabStatusJsEnum.() -> TabStatus) {
 
-	unloaded,
-	loading,
-	complete,
+	UNLOADED({ UNLOADED }),
+
+	LOADING({ LOADING }),
+
+	COMPLETE({ COMPLETE }),
 	;
 
-	val value: RunAt = name
+	val value: TabStatus get() = valueProvider(TabStatusJsEnum)
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: TabStatus): TabStatusEnum = valueOf(value)
 	}
 }

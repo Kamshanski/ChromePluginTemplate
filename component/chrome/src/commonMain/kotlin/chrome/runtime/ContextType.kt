@@ -1,30 +1,31 @@
 package chrome.runtime
 
+import chrome.runtime.constant.ContextTypeJsEnum
+
 /** @since Chrome 114 */
 typealias ContextType = String
 
-enum class ContextTypeEnum {
+enum class ContextTypeEnum(private val valueProvider: ContextTypeJsEnum.() -> ContextType) {
 
 	/** Specifies the context type as a tab */
-	tab,
+	TAB({ TAB }),
 
 	/** Specifies the context type as an extension popup window */
-	popup,
+	POPUP({ POPUP }),
 
 	/** Specifies the context type as a service worker. */
-	background,
+	BACKGROUND({ BACKGROUND }),
 
 	/** Specifies the context type as an offscreen document. */
-	offscreen_document,
+	OFFSCREEN_DOCUMENT({ OFFSCREEN_DOCUMENT }),
 
 	/** Specifies the context type as a side panel. */
-	side_panel,
+	SIDE_PANEL({ SIDE_PANEL }),
 
 	/** Specifies the context type as developer tools. */
-	developer_tools,
-	;
+	DEVELOPER_TOOLS({ DEVELOPER_TOOLS });
 
-	val value: ContextType = name
+	val value: ContextType get() = valueProvider(ContextTypeJsEnum)
 
 	companion object {
 

@@ -1,24 +1,23 @@
 package chrome.tabs
 
-import chrome.extensiontypes.RunAt
-import chrome.extensiontypes.RunAtEnum
+import chrome.tabs.constant.WindowTypeJsEnum
 
 typealias WindowType = String
 
 /** The type of window. */
-enum class WindowTypeEnum {
+enum class WindowTypeEnum(private val valueProvider: WindowTypeJsEnum.() -> WindowType) {
 
-	normal,
-	popup,
-	panel,
-	app,
-	devtools,
+	NORMAL({ NORMAL }),
+	POPUP({ POPUP }),
+	PANEL({ PANEL }),
+	APP({ APP }),
+	DEVTOOLS({ DEVTOOLS }),
 	;
 
-	val value: RunAt = name
+	val value: WindowType get() = valueProvider(WindowTypeJsEnum)
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: WindowType): WindowTypeEnum = WindowTypeEnum.valueOf(value)
 	}
 }

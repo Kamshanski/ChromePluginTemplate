@@ -29,7 +29,7 @@ external interface BookmarkTreeNode {
 	 * @since Chrome 134
 	 * @see FolderType
 	 */
-	var folderType: (String /* `${FolderType}` */)?
+	var folderType: FolderType?
 
 	/** The unique identifier for the node. IDs are unique within the current profile, and they remain valid even after the browser is restarted. */
 	var id: String
@@ -54,7 +54,7 @@ external interface BookmarkTreeNode {
 	var title: String
 
 	/** Indicates the reason why this node is unmodifiable. The `managed` value indicates that this node was configured by the system administrator or by the custodian of a supervised user. Omitted if the node can be modified by the user and the extension (default). */
-	var unmodifiable: (String /* `${BookmarkTreeNodeUnmodifiable}` */)?
+	var unmodifiable: BookmarkTreeNodeUnmodifiable?
 
 	/** The URL navigated to when a user clicks the bookmark. Omitted for folders. */
 	var url: String?

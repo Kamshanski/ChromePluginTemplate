@@ -16,10 +16,9 @@ enum class RunAtEnum {
 
 	document_start,
 	document_end,
-	document_idle,
-	;
+	document_idle;
 
-	val value: RunAt = name
+	val value: RunAt get() = name
 
 	companion object {
 
