@@ -14,9 +14,9 @@
   ],
   "action": {
     "default_icon": {
-      "16": "image/sample_image.jpeg",
-      "24": "image/sample_image.jpeg",
-      "32": "image/sample_image.jpeg"
+      "16": "image/sample_image.png",
+      "24": "image/sample_image.png",
+      "32": "image/sample_image.png"
     },
     "default_title": "Chrome Plugin Template",
     "default_popup": "page/default_popup.html"
