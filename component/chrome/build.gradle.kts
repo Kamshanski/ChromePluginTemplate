@@ -1,4 +1,5 @@
 import optin.defaultOptInOption
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.DEVELOPMENT
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,6 +10,10 @@ kotlin {
     js {
         binaries.library()
         browser {
+            webpackTask {
+                // TODO Remove this line in production
+                mode = DEVELOPMENT
+            }
             commonWebpackConfig {
                 cssSupport {
                     enabled.set(true)
