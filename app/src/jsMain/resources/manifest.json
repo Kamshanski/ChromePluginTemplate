@@ -2,7 +2,7 @@
   "name": "Chrome Plugin Template",
   "version": "1.0.0",
   "manifest_version": 3,
-  "permissions": ["storage", "extensions", "tabs", "activeTab", "scripting", "bookmarks"],
+  "permissions": ["storage", "extensions", "tabs", "activeTab", "scripting", "bookmarks", "notifications"],
   "action": {
     "default_icon": {
       "16": "image/sample_image.jpeg",
