@@ -6,6 +6,9 @@ package chrome.extensiontypes
  */
 typealias DocumentLifecycle = String
 
+/**
+ * @see DocumentLifecycle
+ */
 enum class DocumentLifecycleEnum {
 
 	prerender,
@@ -14,7 +17,7 @@ enum class DocumentLifecycleEnum {
 	pending_deletion,
 	;
 
-	val value: DocumentLifecycle = name
+	val value: DocumentLifecycle get() = name
 
 	companion object {
 

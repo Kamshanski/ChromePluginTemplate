@@ -1,5 +1,7 @@
 package chrome.windows
 
+import chrome.windows.constant.CreateTypeJsEnum
+
 /**
  * Specifies what type of browser window to create.
  * 'panel' is deprecated and is available only to existing whitelisted extensions on Chrome OS.
@@ -7,18 +9,18 @@ package chrome.windows
  */
 typealias CreateType = String
 
-enum class CreateTypeEnum {
+enum class CreateTypeEnum(private val valueProvider: CreateTypeJsEnum.() -> CreateType) {
 
 	/** Specifies the window as a standard window. */
-	normal,
+	NORMAL({ NORMAL }),
 
 	/** Specifies the window as a popup window. */
-	popup,
+	POPUP({ POPUP }),
 
 	/** @deprecated Specifies the window as a panel. */
-	panel;
+	PANEL({ PANEL });
 
-	val value: CreateType = name
+	val value: CreateType get() = valueProvider(CreateTypeJsEnum)
 
 	companion object {
 

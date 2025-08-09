@@ -6,16 +6,16 @@ package chrome.extensiontypes
  */
 typealias ImageFormat = String
 
-enum class ImageFormatEnum {
+enum class ImageFormatEnum() {
 
 	jpeg,
 	png,
 	;
 
-	val value: RunAt = name
+	val value: ImageFormat get() = name
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: ImageFormat): ImageFormatEnum = valueOf(value)
 	}
 }

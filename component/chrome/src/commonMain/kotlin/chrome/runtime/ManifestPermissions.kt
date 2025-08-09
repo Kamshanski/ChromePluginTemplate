@@ -2,7 +2,9 @@ package chrome.runtime
 
 typealias ManifestPermissions = String
 
-/** Source: https://developer.chrome.com/docs/extensions/reference/permissions-list */
+/** Source: https://developer.chrome.com/docs/extensions/reference/permissions-list
+ * Chrome API does not have any enum that holds all values. So its hardcoded as enum names for simplicity
+ * */
 enum class ManifestPermissionsEnum {
 	`accessibilityFeatures.modify`,
 	`accessibilityFeatures.read`,

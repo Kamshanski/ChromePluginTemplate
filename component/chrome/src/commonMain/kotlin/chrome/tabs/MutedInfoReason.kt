@@ -2,6 +2,7 @@ package chrome.tabs
 
 import chrome.extensiontypes.RunAt
 import chrome.extensiontypes.RunAtEnum
+import chrome.tabs.constant.MutedInfoReasonJsEnum
 
 /**
  * An event that caused a muted state change.
@@ -9,22 +10,22 @@ import chrome.extensiontypes.RunAtEnum
  */
 typealias MutedInfoReason = String
 
-enum class MutedInfoReasonEnum {
+enum class MutedInfoReasonEnum(private val valueProvider: MutedInfoReasonJsEnum.() -> MutedInfoReason) {
 
 	/** A user input action set the muted state. */
-	user,
+	USER({ USER }),
 
 	/** Tab capture was started, forcing a muted state change. */
-	capture,
+	CAPTURE({ CAPTURE }),
 
 	/** An extension set the muted state. */
-	extension,
+	EXTENSION({ EXTENSION }),
 	;
 
-	val value: RunAt = name
+	val value: MutedInfoReason get() = valueProvider(MutedInfoReasonJsEnum)
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.entries.first { it.value == value }
 	}
 }

@@ -13,10 +13,10 @@ enum class FrameTypeEnum {
 	sub_frame,
 	;
 
-	val value: RunAt = name
+	val value: FrameType = name
 
 	companion object {
 
-		fun enumValueOf(value: RunAt): RunAtEnum = RunAtEnum.valueOf(value)
+		fun enumValueOf(value: FrameType): FrameTypeEnum = FrameTypeEnum.valueOf(value)
 	}
 }

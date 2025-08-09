@@ -1,12 +1,17 @@
 package chrome.extensiontypes
 
+/**
+ * The origin of injected CSS.
+ */
 typealias CSSOrigin = String
 
-enum class CSSOriginEnum {
+/**
+ * @see CSSOrigin
+ */
+enum class CSSOriginEnum() {
 
 	author,
-	user,
-	;
+	user;
 
 	val value: CSSOrigin = name
 

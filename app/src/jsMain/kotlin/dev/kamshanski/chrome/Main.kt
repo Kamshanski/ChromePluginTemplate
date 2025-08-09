@@ -5,6 +5,7 @@ import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNu
 import dev.kamshanski.chrome.component.chrome.bookmarks.childList
 import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
+import dev.kamshanski.chrome.test.ConstantsTest
 import dev.kamshanski.chrome.utll.dom.firstElementById
 import kotlinx.browser.document
 import kotlinx.browser.window
@@ -22,6 +23,8 @@ val okButton: HTMLButtonElement get() = document.firstElementById("ok_button")
 val numberInput: HTMLInputElement get() = document.firstElementById("number_input")
 val bookmarksCountButton: HTMLButtonElement get() = document.firstElementById("bookmarks_count_button")
 val bookmarksCountResult: HTMLParagraphElement get() = document.firstElementById("bookmarks_count_result")
+val enumTestButton: HTMLButtonElement get() = document.firstElementById("enum_test_button")
+val enumTestResult: HTMLParagraphElement get() = document.firstElementById("enum_test_result")
 
 fun main() {
 	i { "Extension script loaded" }
@@ -50,6 +53,21 @@ fun main() {
 					bookmarksCountResult.textContent = "Вне папок находится $count закладок. Рандомная - ${item.title}"
 				}
 			}
+		}
+		enumTestButton.setOnClickListener {
+			val result = ConstantsTest().test()
+			val message = if (result.isEmpty()) {
+				"Всё круто"
+			} else {
+				result.joinToString("<br>") {
+					when (it) {
+						is ConstantsTest.Error.MismatchedValue     -> it.entry.name + " != " + it.chromeValue
+
+						is ConstantsTest.Error.NotFoundValueOrEnum -> it.entry::class.simpleName + "." + it.entry.name + " not found. ${it.e ?: ""}"
+					}
+				}
+			}
+			enumTestResult.innerHTML = message
 		}
 	}
 }

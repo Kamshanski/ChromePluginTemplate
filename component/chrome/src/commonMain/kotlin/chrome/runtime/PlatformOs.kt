@@ -1,36 +1,37 @@
 package chrome.runtime
 
+import chrome.runtime.constant.PlatformOsJsEnum
+
 /**
  * The operating system Chrome is running on.
  * @since Chrome 44
  */
 typealias PlatformOs = String
 
-enum class PlatformOsEnum {
+enum class PlatformOsEnum(private val valueProvider: PlatformOsJsEnum.() -> PlatformOs) {
 
 	/** Specifies the MacOS operating system. */
-	mac,
+	MAC({ MAC }),
 
 	/** Specifies the Windows operating system. */
-	win,
+	WIN({ WIN }),
 
 	/** Specifies the Android operating system. */
-	android,
+	ANDROID({ ANDROID }),
 
 	/** Specifies the Chrome operating system. */
-	cros,
+	CROS({ CROS }),
 
 	/** Specifies the Linux operating system. */
-	linux,
+	LINUX({ LINUX }),
 
 	/** Specifies the OpenBSD operating system. */
-	openbsd,
+	OPENBSD({ OPENBSD }),
 
 	/** Specifies the Fuchsia operating system. */
-	fuchsia,
-	;
+	FUCHSIA({ FUCHSIA });
 
-	val value: PlatformOs = name
+	val value: PlatformOs get() = valueProvider(PlatformOsJsEnum)
 
 	companion object {
 
