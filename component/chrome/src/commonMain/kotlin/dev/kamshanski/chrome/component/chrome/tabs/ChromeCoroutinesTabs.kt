@@ -38,19 +38,19 @@ object ChromeCoroutinesTabs {
 	 * The maximum number of times that {@link captureVisibleTab} can be called per second. {@link captureVisibleTab} is expensive and should not be called too often.
 	 * @since Chrome 92
 	 */
-	val MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND: Any? = ChromeTabs.MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND
+	val MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND: Any? by ChromeTabs::MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND
 
 	/**
 	 * An ID that represents the absence of a browser tab.
 	 * @since Chrome 46
 	 */
-	val TAB_ID_NONE: Any? = ChromeTabs.TAB_ID_NONE
+	val TAB_ID_NONE: Any? by ChromeTabs::TAB_ID_NONE
 
 	/**
 	 * An index that represents the absence of a tab index in a tab_strip.
 	 * @since Chrome 123
 	 */
-	val TAB_INDEX_NONE: Any? = ChromeTabs.TAB_INDEX_NONE
+	val TAB_INDEX_NONE: Any? by ChromeTabs::TAB_INDEX_NONE
 
 	/**
 	 * Injects JavaScript code into a page. For details, see the programmatic injection section of the content scripts doc.
@@ -329,31 +329,31 @@ object ChromeCoroutinesTabs {
 	suspend fun ungroup(tabIds: IntArray) = ChromeTabs.ungroup(tabIds).await()
 
 	/** Fired when the highlighted or selected tabs in a window changes */
-	val onHighlighted: Event<(highlightInfo: OnHighlightedInfo) -> Unit> = ChromeTabs.onHighlighted
+	val onHighlighted: Event<(highlightInfo: OnHighlightedInfo) -> Unit> by ChromeTabs::onHighlighted
 
 	/** Fired when a tab is closed. */
-	val onRemoved: Event<(tabId: Int, removeInfo: OnRemovedInfo) -> Unit> = ChromeTabs.onRemoved
+	val onRemoved: Event<(tabId: Int, removeInfo: OnRemovedInfo) -> Unit> by ChromeTabs::onRemoved
 
 	/** Fired when a tab is updated. */
-	val onUpdated: Event<(tabId: Int, changeInfo: OnUpdatedInfo, tab: Tab) -> Unit> = ChromeTabs.onUpdated
+	val onUpdated: Event<(tabId: Int, changeInfo: OnUpdatedInfo, tab: Tab) -> Unit> by ChromeTabs::onUpdated
 
 	/** Fired when a tab is attached to a window, for example because it was moved between windows. */
-	val onAttached: Event<(tabId: Int, attachInfo: OnAttachedInfo) -> Unit> = ChromeTabs.onAttached
+	val onAttached: Event<(tabId: Int, attachInfo: OnAttachedInfo) -> Unit> by ChromeTabs::onAttached
 
 	/** Fired when a tab is moved within a window. Only one move event is fired, representing the tab the user directly moved. Move events are not fired for the other tabs that must move in response to the manually-moved tab. This event is not fired when a tab is moved between windows; for details, see {@link tabs.onDetached}. */
-	val onMoved: Event<(tabId: Int, moveInfo: OnMovedInfo) -> Unit> = ChromeTabs.onMoved
+	val onMoved: Event<(tabId: Int, moveInfo: OnMovedInfo) -> Unit> by ChromeTabs::onMoved
 
 	/** Fired when a tab is detached from a window; for example, because it was moved between windows. */
-	val onDetached: Event<(tabId: Int, detachInfo: OnDetachedInfo) -> Unit> = ChromeTabs.onDetached
+	val onDetached: Event<(tabId: Int, detachInfo: OnDetachedInfo) -> Unit> by ChromeTabs::onDetached
 
 	/** Fired when a tab is created. Note that the tab's URL and tab group membership may not be set at the time this event is fired, but you can listen to onUpdated events so as to be notified when a URL is set or the tab is added to a tab group. */
-	val onCreated: Event<(tab: Tab) -> Unit> = ChromeTabs.onCreated
+	val onCreated: Event<(tab: Tab) -> Unit> by ChromeTabs::onCreated
 
 	/** Fires when the active tab in a window changes. Note that the tab's URL may not be set at the time this event fired, but you can listen to onUpdated events so as to be notified when a URL is set */
-	val onActivated: Event<(activeInfo: OnActivatedInfo) -> Unit> = ChromeTabs.onActivated
+	val onActivated: Event<(activeInfo: OnActivatedInfo) -> Unit> by ChromeTabs::onActivated
 
 	/** Fired when a tab is replaced with another tab due to prerendering or instant */
-	val onReplaced: Event<(addedTabId: Int, removedTabId: Int) -> Unit> = ChromeTabs.onReplaced
+	val onReplaced: Event<(addedTabId: Int, removedTabId: Int) -> Unit> by ChromeTabs::onReplaced
 
 	/**
 	 * Fires when the selected tab in a window changes.
@@ -361,7 +361,7 @@ object ChromeCoroutinesTabs {
 	 * MV2 only
 	 * @deprecated Please use {@link tabs.onActivated}.
 	 */
-	val onSelectionChanged: Event<(tabId: Int, selectInfo: OnSelectionChangedInfo) -> Unit> = ChromeTabs.onSelectionChanged
+	val onSelectionChanged: Event<(tabId: Int, selectInfo: OnSelectionChangedInfo) -> Unit> by ChromeTabs::onSelectionChanged
 
 	/**
 	 * Fires when the selected tab in a window changes. Note that the tab's URL may not be set at the time this event fired, but you can listen to {@link tabs.onUpdated} events so as to be notified when a URL is set.
@@ -369,7 +369,7 @@ object ChromeCoroutinesTabs {
 	 * MV2 only
 	 * @deprecated Please use {@link tabs.onActivated}.
 	 */
-	val onActiveChanged: Event<(tabId: Int, selectInfo: OnActiveChangedInfo) -> Unit> = ChromeTabs.onActiveChanged
+	val onActiveChanged: Event<(tabId: Int, selectInfo: OnActiveChangedInfo) -> Unit> by ChromeTabs::onActiveChanged
 
 	/**
 	 * Fired when the highlighted or selected tabs in a window changes.
@@ -377,8 +377,8 @@ object ChromeCoroutinesTabs {
 	 * MV2 only
 	 * @deprecated Please use {@link tabs.onHighlighted}.
 	 */
-	val onHighlightChanged: Event<(selectInfo: OnHighlightChangedInfo) -> Unit> = ChromeTabs.onHighlightChanged
+	val onHighlightChanged: Event<(selectInfo: OnHighlightChangedInfo) -> Unit> by ChromeTabs::onHighlightChanged
 
 	/** Fired when a tab is zoomed */
-	val onZoomChange: Event<(zoomChangeInfo: OnZoomChangeInfo) -> Unit> = ChromeTabs.onZoomChange
+	val onZoomChange: Event<(zoomChangeInfo: OnZoomChangeInfo) -> Unit> by ChromeTabs::onZoomChange
 }

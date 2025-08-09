@@ -12,6 +12,7 @@ import kotlin.js.collections.JsReadonlyArray
 /**
  * @see chrome.scripting.ChromeScripting
  */
+@Suppress("unused")
 object ChromeCoroutinesScripting {
 
 	/**

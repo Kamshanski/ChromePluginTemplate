@@ -19,7 +19,7 @@ import kotlin.js.collections.JsReadonlyArray
 object ChromeCoroutinesTabGroups {
 
 	/** An ID that represents the absence of a group. */
-	val TAB_GROUP_ID_NONE: Int = ChromeTabGroups.TAB_GROUP_ID_NONE
+	val TAB_GROUP_ID_NONE: Int by ChromeTabGroups::TAB_GROUP_ID_NONE
 
 	/**
 	 * Retrieves details about the specified group.
@@ -52,14 +52,14 @@ object ChromeCoroutinesTabGroups {
 	suspend fun update(groupId: Double, updateProperties: UpdateProperties): TabGroup? = ChromeTabGroups.update(groupId, updateProperties).await()
 
 	/** Fired when a group is created. */
-	val onCreated: Event<(group: TabGroup) -> Unit> = ChromeTabGroups.onCreated
+	val onCreated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onCreated
 
 	/** Fired when a group is moved within a window. Move events are still fired for the individual tabs within the group, as well as for the group itself. This event is not fired when a group is moved between windows; instead, it will be removed from one window and created in another. */
-	val onMoved: Event<(group: TabGroup) -> Unit> = ChromeTabGroups.onMoved
+	val onMoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onMoved
 
 	/** Fired when a group is closed, either directly by the user or automatically because it contained zero tabs. */
-	val onRemoved: Event<(group: TabGroup) -> Unit> = ChromeTabGroups.onRemoved
+	val onRemoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onRemoved
 
 	/** Fired when a group is updated. */
-	val onUpdated: Event<(group: TabGroup) -> Unit> = ChromeTabGroups.onUpdated
+	val onUpdated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onUpdated
 }

@@ -61,21 +61,21 @@ object ChromeCoroutinesNotifications {
 	suspend fun update(notificationId: String, options: NotificationOptions): Boolean = ChromeNotifications.update(notificationId, options).await()
 
 	/** The user pressed a button in the notification. */
-	val onButtonClicked: Event<(notificationId: String, buttonIndex: Int) -> Unit> = ChromeNotifications.onButtonClicked
+	val onButtonClicked: Event<(notificationId: String, buttonIndex: Int) -> Unit> by ChromeNotifications::onButtonClicked
 
 	/** The user clicked in a non-button area of the notification. */
-	val onClicked: Event<(notificationId: String) -> Unit> = ChromeNotifications.onClicked
+	val onClicked: Event<(notificationId: String) -> Unit> by ChromeNotifications::onClicked
 
 	/** The notification closed, either by the system or by user action. */
-	val onClosed: Event<(notificationId: String, byUser: Boolean) -> Unit> = ChromeNotifications.onClosed
+	val onClosed: Event<(notificationId: String, byUser: Boolean) -> Unit> by ChromeNotifications::onClosed
 
 	/** The user changes the permission level. As of Chrome 47, only ChromeOS has UI that dispatches this event. */
-	val onPermissionLevelChanged: Event<(level: PermissionLevel) -> Unit> = ChromeNotifications.onPermissionLevelChanged
+	val onPermissionLevelChanged: Event<(level: PermissionLevel) -> Unit> by ChromeNotifications::onPermissionLevelChanged
 
 	/**
 	 * The user clicked on a link for the app's notification settings. As of Chrome 47, only ChromeOS has UI that dispatches this event. As of Chrome 65, that UI has been removed from ChromeOS, too.
 	 * @deprecated since Chrome 65. Custom notification settings button is no longer supported.
 	 */
 	@Deprecated("Deprecated since Chrome 65. Custom notification settings button is no longer supported.")
-	val onShowSettings: Event<() -> Unit> = ChromeNotifications.onShowSettings
+	val onShowSettings: Event<() -> Unit> by ChromeNotifications::onShowSettings
 }

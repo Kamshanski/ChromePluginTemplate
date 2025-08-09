@@ -19,25 +19,25 @@ import dev.kamshanski.chrome.util.common.asList
 object ChromeCoroutinesBookmarks {
 
 	/** Fired when a bookmark or folder changes. **Note:** Currently, only title and url changes trigger this.*/
-	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> = ChromeBookmarks.onChanged
+	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> by ChromeBookmarks::onChanged
 
 	/** Fired when the children of a folder have changed their order due to the order being sorted in the UI. This is not called as a result of a move(). */
-	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> = ChromeBookmarks.onChildrenReordered
+	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> by ChromeBookmarks::onChildrenReordered
 
 	/** Fired when a bookmark or folder is created. */
-	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> = ChromeBookmarks.onCreated
+	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> by ChromeBookmarks::onCreated
 
 	/** Fired when a bookmark import session is begun. Expensive observers should ignore onCreated updates until onImportEnded is fired. Observers should still handle other notifications immediately. */
-	val onImportBegan: Event<() -> Unit> = ChromeBookmarks.onImportBegan
+	val onImportBegan: Event<() -> Unit> by ChromeBookmarks::onImportBegan
 
 	/** Fired when a bookmark import session is ended.  */
-	val onImportEnded: Event<() -> Unit> = ChromeBookmarks.onImportEnded
+	val onImportEnded: Event<() -> Unit> by ChromeBookmarks::onImportEnded
 
 	/** Fired when a bookmark or folder is moved to a different parent folder. */
-	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> = ChromeBookmarks.onMoved
+	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> by ChromeBookmarks::onMoved
 
 	/** Fired when a bookmark or folder is removed. When a folder is removed recursively, a single notification is fired for the folder, and none for its contents. */
-	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> = ChromeBookmarks.onRemoved
+	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> by ChromeBookmarks::onRemoved
 
 	/**
 	 * Creates a bookmark or folder under the specified parentId. If url is NULL or missing, it will be a folder.
