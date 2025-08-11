@@ -1,8 +1,8 @@
 package dev.kamshanski.chrome.component.chrome.bookmarks
 
-import chrome.bookmarks.ChromeBookmarks
 import chrome.bookmarks.BookmarkTreeNode
 import chrome.bookmarks.ChangeInfo
+import chrome.bookmarks.ChromeBookmarks
 import chrome.bookmarks.CreateDetails
 import chrome.bookmarks.MoveDestination
 import chrome.bookmarks.MoveInfo
@@ -11,9 +11,8 @@ import chrome.bookmarks.ReorderInfo
 import chrome.bookmarks.SearchQuery
 import chrome.bookmarks.UpdateChanges
 import chrome.events.Event
-import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
 import dev.kamshanski.chrome.util.common.asList
+import kotlinx.coroutines.await
 
 @Suppress("unused")
 object KChromeBookmarks {
@@ -62,8 +61,8 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome 90.
 	 */
-	suspend fun get(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.get(id).await()
+	suspend fun get(id: String): List<BookmarkTreeNode> =
+		ChromeBookmarks.get(id).await().asList()
 
 	/**
 	 * Retrieves the specified BookmarkTreeNode(s).
@@ -73,16 +72,16 @@ object KChromeBookmarks {
 	 */
 	suspend fun get(
 		idList: Array<String>
-	): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.get(idList).await()
+	): List<BookmarkTreeNode> =
+		ChromeBookmarks.get(idList).await().asList()
 
 	/**
 	 * Retrieves the children of the specified BookmarkTreeNode id.
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun getChildren(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.getChildren(id).await()
+	suspend fun getChildren(id: String): List<BookmarkTreeNode> =
+		ChromeBookmarks.getChildren(id).await().asList()
 
 	/**
 	 * Retrieves the recently added bookmarks.
@@ -90,8 +89,8 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun getRecent(numberOfItems: Double): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.getRecent(numberOfItems).await()
+	suspend fun getRecent(numberOfItems: Double): List<BookmarkTreeNode> =
+		ChromeBookmarks.getRecent(numberOfItems).await().asList()
 
 	/**
 	 * Retrieves part of the Bookmarks hierarchy, starting at the specified node.
@@ -99,8 +98,8 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun getSubTree(id: String): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.getSubTree(id).await()
+	suspend fun getSubTree(id: String): List<BookmarkTreeNode> =
+		ChromeBookmarks.getSubTree(id).await().asList()
 
 	/**
 	 * Moves the specified BookmarkTreeNode to the provided location.
@@ -132,8 +131,8 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun search(query: String): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.search(query).await()
+	suspend fun search(query: String): List<BookmarkTreeNode> =
+		ChromeBookmarks.search(query).await().asList()
 
 	/**
 	 * Searches for BookmarkTreeNodes matching the given query. Queries specified with an object produce BookmarkTreeNodes matching all specified properties.
@@ -141,8 +140,8 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun search(query: SearchQuery): JsReadonlyArray<BookmarkTreeNode> =
-		ChromeBookmarks.search(query).await()
+	suspend fun search(query: SearchQuery): List<BookmarkTreeNode> =
+		ChromeBookmarks.search(query).await().asList()
 
 	/**
 	 * Updates the properties of a bookmark or folder. Specify only the properties that you want to change; unspecified properties will be left unchanged. **Note:** Currently, only 'title' and 'url' are supported.

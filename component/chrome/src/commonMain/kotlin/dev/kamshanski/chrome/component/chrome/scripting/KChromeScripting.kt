@@ -48,7 +48,7 @@ object KChromeScripting {
 	 * @param scripts Contains a list of scripts to be registered. If there are errors during script parsing/file validation, or if the IDs specified already exist, then no scripts are registered.
 	 * @since Chrome 96
 	 */
-	suspend fun registerContentScripts(scripts: JsReadonlyArray<RegisteredContentScript>) = ChromeScripting.registerContentScripts(scripts).await()
+	suspend fun registerContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.registerContentScripts(scripts.asJsReadonlyArrayView()).await()
 
 	/**
 	 * Unregisters content scripts for this extension.
@@ -72,5 +72,5 @@ object KChromeScripting {
 	 * If there are errors during script parsing/file validation, or if the IDs specified do not correspond to a fully registered script, then no scripts are updated.
 	 * @since Chrome 96
 	 */
-	suspend fun updateContentScripts(scripts: JsReadonlyArray<RegisteredContentScript>) = ChromeScripting.updateContentScripts(scripts).await()
+	suspend fun updateContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.updateContentScripts(scripts.asJsReadonlyArrayView()).await()
 }

@@ -28,10 +28,11 @@ import chrome.tabs.Tab
 import chrome.tabs.UpdateProperties
 import chrome.tabs.ZoomSettings
 import chrome.windows.Window
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
 
-@Suppress("unused")
+@OptIn(ExperimentalJsExport::class)
+@Suppress("unused", "KDocUnresolvedReference")
 object KChromeTabs {
 
 	/**
@@ -62,8 +63,8 @@ object KChromeTabs {
 	 * @param details Details of the script to run. Either the code or the file property must be set, but both may not be set at the same time
 	 * @deprecated since Chrome 99. Replaced by {@link scripting.executeScript} in Manifest V3.
 	 */
-	suspend fun executeScript(details: InjectDetails): JsReadonlyArray<Any?>? = ChromeTabs.executeScript(details).await()
-	suspend fun executeScript(tabId: Int?, details: InjectDetails): JsReadonlyArray<Any?>? = ChromeTabs.executeScript(tabId, details).await()
+	suspend fun executeScript(tabId: Int?, details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(tabId, details).await()?.asList()
+	suspend fun executeScript(details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(details).await()?.asList()
 
 	/**
 	 * Retrieves details about the specified tab
@@ -80,7 +81,7 @@ object KChromeTabs {
 	 * MV2 only
 	 * @deprecated Please use {@link tabs.query} `{windowId: windowId}`.
 	 */
-	suspend fun getAllInWindow(windowId: Int): JsReadonlyArray<Tab> = ChromeTabs.getAllInWindow(windowId).await()
+	suspend fun getAllInWindow(windowId: Int): List<Tab> = ChromeTabs.getAllInWindow(windowId).await().asList()
 
 	/**
 	 * Gets the tab that this script call is being made from. Returns `undefined` if called from a non-tab context (for example, a background page or popup view).
@@ -98,8 +99,8 @@ object KChromeTabs {
 	 * @param windowId Defaults to the current window.
 	 * @deprecated Please use {@link tabs.query} `{active: true}`.
 	 */
-	suspend fun getSelected(): Tab = ChromeTabs.getSelected().await()
 	suspend fun getSelected(windowId: Int): Tab = ChromeTabs.getSelected(windowId).await()
+	suspend fun getSelected(): Tab = ChromeTabs.getSelected().await()
 
 	/**
 	 * Creates a new tab.
@@ -115,8 +116,8 @@ object KChromeTabs {
 	 *
 	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
 	 */
+	suspend fun move(tabIds: List<Int>, moveProperties: MoveProperties): List<Tab> = ChromeTabs.move(tabIds.asJsReadonlyArrayView(), moveProperties).await().asList()
 	suspend fun move(tabId: Int, moveProperties: MoveProperties): Tab = ChromeTabs.move(tabId, moveProperties).await()
-	suspend fun move(tabIds: JsReadonlyArray<Int>, moveProperties: MoveProperties): JsReadonlyArray<Tab> = ChromeTabs.move(tabIds, moveProperties).await()
 
 	/**
 	 * Modifies the properties of a tab. Properties that are not specified in `updateProperties` are not modified.
@@ -135,7 +136,7 @@ object KChromeTabs {
 	 * @param tabIds List of tab IDs to close.
 	 */
 	suspend fun remove(tabId: Int) = ChromeTabs.remove(tabId).await()
-	suspend fun remove(tabIds: JsReadonlyArray<Int>) = ChromeTabs.remove(tabIds).await()
+	suspend fun remove(tabIds: List<Int>) = ChromeTabs.remove(tabIds.asJsReadonlyArrayView()).await()
 
 	/**
 	 * Captures the visible area of the currently active tab in the specified window. In order to call this method, the extension must have either the [<all\_urls>](https://developer.chrome.com/extensions/develop/concepts/declare-permissions) permission or the [activeTab](https://developer.chrome.com/docs/extensions/develop/concepts/activeTab) permission. In addition to sites that extensions can normally access, this method allows extensions to capture sensitive sites that are otherwise restricted, including chrome:-scheme pages, other extensions' pages, and data: URLs. These sensitive sites can only be captured with the activeTab permission. File URLs may be captured only if the extension has been granted file access.
@@ -223,7 +224,7 @@ object KChromeTabs {
 	suspend fun highlight(highlightInfo: HighlightInfo): Window = ChromeTabs.highlight(highlightInfo).await()
 
 	/** Gets all tabs that have the specified properties, or all tabs if no properties are specified. */
-	suspend fun query(queryInfo: QueryInfo): JsReadonlyArray<Tab> = ChromeTabs.query(queryInfo).await()
+	suspend fun query(queryInfo: QueryInfo): List<Tab> = ChromeTabs.query(queryInfo).await().asList()
 
 	/**
 	 * Detects the primary language of the content in a tab.

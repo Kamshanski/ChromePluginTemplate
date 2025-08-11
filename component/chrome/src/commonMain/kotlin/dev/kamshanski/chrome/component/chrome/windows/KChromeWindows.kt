@@ -7,8 +7,8 @@ import chrome.windows.QueryOptions
 import chrome.windows.UpdateInfo
 import chrome.windows.Window
 import chrome.windows.WindowsEvent
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
 
 /**
  * Use the `chrome.windows` API to interact with browser windows. You can use this API to create, modify, and rearrange windows in the browser.
@@ -53,8 +53,8 @@ object KChromeWindows {
 	 *
 	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
 	 */
-	suspend fun getAll(): JsReadonlyArray<Window> = ChromeWindows.getAll().await()
-	suspend fun getAll(queryOptions: QueryOptions): JsReadonlyArray<Window> = ChromeWindows.getAll(queryOptions).await()
+	suspend fun getAll(): List<Window> = ChromeWindows.getAll().await().asList()
+	suspend fun getAll(queryOptions: QueryOptions): List<Window> = ChromeWindows.getAll(queryOptions).await().asList()
 
 	/**
 	 * Updates the properties of a window. Specify only the properties that to be changed; unspecified properties are unchanged.

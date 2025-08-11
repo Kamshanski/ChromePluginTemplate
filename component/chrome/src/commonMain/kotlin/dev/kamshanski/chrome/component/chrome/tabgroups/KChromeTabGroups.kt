@@ -6,8 +6,8 @@ import chrome.tabgroups.MoveProperties
 import chrome.tabgroups.QueryInfo
 import chrome.tabgroups.TabGroup
 import chrome.tabgroups.UpdateProperties
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
 
 /**
  * Use the `chrome.tabGroups` API to interact with the browser's tab grouping system. You can use this API to modify and rearrange tab groups in the browser. To group and ungroup tabs, or to query what tabs are in groups, use the `chrome.tabs` API.
@@ -40,7 +40,7 @@ object KChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	suspend fun query(queryInfo: QueryInfo): JsReadonlyArray<TabGroup> = ChromeTabGroups.query(queryInfo).await()
+	suspend fun query(queryInfo: QueryInfo): List<TabGroup> = ChromeTabGroups.query(queryInfo).await().asList()
 
 	/**
 	 * Modifies the properties of a group. Properties that are not specified in `updateProperties` are not modified.

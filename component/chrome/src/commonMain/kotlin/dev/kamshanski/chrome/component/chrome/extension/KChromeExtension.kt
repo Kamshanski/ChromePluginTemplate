@@ -3,9 +3,9 @@ package dev.kamshanski.chrome.component.chrome.extension
 import chrome.extension.ChromeExtension
 import chrome.extension.FetchProperties
 import chrome.extension.LastError
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
 import org.w3c.dom.Window
-import kotlin.js.collections.JsReadonlyArray
 
 /**
  * The `chrome.extension` API has utilities that can be used by any extension page. It includes support for exchanging messages between an extension and its content scripts or between extensions, as described in detail in Message Passing.
@@ -38,8 +38,8 @@ object KChromeExtension {
 	fun setUpdateUrlData(data: String) = ChromeExtension.setUpdateUrlData(data)
 
 	/** Returns an array of the JavaScript 'window' objects for each of the pages running inside the current extension. */
-	fun getViews(fetchProperties: FetchProperties): JsReadonlyArray<Window> = ChromeExtension.getViews(fetchProperties)
-	fun getViews(): JsReadonlyArray<Window> = ChromeExtension.getViews()
+	fun getViews(fetchProperties: FetchProperties): List<Window> = ChromeExtension.getViews(fetchProperties).asList()
+	fun getViews(): List<Window> = ChromeExtension.getViews().asList()
 
 	/**
 	 * Retrieves the state of the extension's access to the 'file://' scheme (as determined by the user-controlled 'Allow access to File URLs' checkbox.

@@ -33,7 +33,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with a number
 	 * @since MV3
 	 */
-	suspend fun getBytesInUse(keys: Array<String>): Int = delegate.getBytesInUse(keys).await()
+	suspend fun getBytesInUse(keys: List<String>): Int = delegate.getBytesInUse(keys.toTypedArray()).await()
 
 	/**
 	 * Removes all items from storage.
@@ -67,7 +67,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A void Promise
 	 * @since MV3
 	 */
-	suspend fun remove(keys: Array<String>): Unit = delegate.remove(keys).await()
+	suspend fun remove(keys: List<String>): Unit = delegate.remove(keys.toTypedArray()).await()
 
 	/**
 	 * Gets one or more items from storage.
@@ -85,7 +85,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	suspend fun get(keys: Array<String>): Json = delegate.get(keys).await()
+	suspend fun get(keys: List<String>): Json = delegate.get(keys.toTypedArray()).await()
 
 	/**
 	 * Gets one or more items from storage.

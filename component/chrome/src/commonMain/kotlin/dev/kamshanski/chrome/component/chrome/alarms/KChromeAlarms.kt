@@ -4,8 +4,8 @@ import chrome.alarms.Alarm
 import chrome.alarms.AlarmCreateInfo
 import chrome.alarms.ChromeAlarms
 import chrome.events.Event
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
 
 /**
  * Use the `chrome.alarms` API to schedule code to run periodically or at a specified time in the future.
@@ -38,7 +38,7 @@ object KChromeAlarms {
 	 * Gets an array of all the alarms.
 	 * @return The `getAll` method provides its result via callback or returned as a `Promise` (MV3 only).
 	 */
-	suspend fun getAll(): JsReadonlyArray<Alarm> = ChromeAlarms.getAll().await()
+	suspend fun getAll(): List<Alarm> = ChromeAlarms.getAll().await().asList()
 
 	/**
 	 * Clears all alarms.
