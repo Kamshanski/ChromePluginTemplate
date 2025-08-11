@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.runtime")
-
 package chrome.runtime
 
 /** An object containing information about the current platform. */

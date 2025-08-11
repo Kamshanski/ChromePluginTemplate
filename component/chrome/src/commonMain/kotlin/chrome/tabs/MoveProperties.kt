@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.tabs")
-
 package chrome.tabs
 
 external interface MoveProperties {
@@ -10,3 +8,14 @@ external interface MoveProperties {
 	/** Defaults to the window the tab is currently in. */
 	var windowId: Int?
 }
+
+fun MoveProperties(
+	/** The position to move the window to. Use `-1` to place the tab at the end of the window. */
+	index: Int,
+	/** Defaults to the window the tab is currently in. */
+	windowId: Int? = null,
+): MoveProperties =
+	js("{}").unsafeCast<MoveProperties>().apply {
+		this.index = index
+		this.windowId = windowId
+	}

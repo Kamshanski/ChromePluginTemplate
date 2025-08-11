@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.tabs")
-
 package chrome.tabs
 
 import kotlin.js.collections.JsReadonlyArray

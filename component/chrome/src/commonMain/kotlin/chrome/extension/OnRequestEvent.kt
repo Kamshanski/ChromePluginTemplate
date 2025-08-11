@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.extension")
-
 package chrome.extension
 
 import chrome.events.Event

@@ -13,6 +13,7 @@ import kotlin.js.collections.JsReadonlyArray
  * @since Chrome 89, MV3
  */
 @JsName("tabGroups")
+@Suppress("unused")
 external object ChromeTabGroups {
 
 	/** An ID that represents the absence of a group. */

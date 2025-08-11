@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.tabGroups")
-
 package chrome.tabgroups
 
 external interface TabGroup {

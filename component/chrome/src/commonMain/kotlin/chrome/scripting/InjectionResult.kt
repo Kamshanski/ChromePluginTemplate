@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.scripting")
-
 package chrome.scripting
 
 external interface InjectionResult<T /* default is null - Nothing?*/> {

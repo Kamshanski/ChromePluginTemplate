@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.action")
-
 package chrome.action
 
 external interface TitleDetails {
@@ -10,3 +8,14 @@ external interface TitleDetails {
 	/** Limits the change to when a particular tab is selected. Automatically resets when the tab is closed.  */
 	var tabId: Int?
 }
+
+fun TitleDetails(
+	/** The string the action should display when moused over. */
+	title: String,
+	/** Limits the change to when a particular tab is selected. Automatically resets when the tab is closed.  */
+	tabId: Int? = null,
+): TitleDetails =
+	js("{}").unsafeCast<TitleDetails>().apply {
+		this.title = title
+		this.tabId = tabId
+	}

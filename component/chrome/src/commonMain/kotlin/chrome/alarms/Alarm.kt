@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.alarms")
-
 package chrome.alarms
 
 external interface Alarm {

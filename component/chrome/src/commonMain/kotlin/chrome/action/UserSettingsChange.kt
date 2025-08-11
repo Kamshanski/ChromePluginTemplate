@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.action")
-
 package chrome.action
 
 /** @since Chrome 130 */
