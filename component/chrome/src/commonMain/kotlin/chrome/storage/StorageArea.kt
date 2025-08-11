@@ -1,9 +1,9 @@
 package chrome.storage
 
 import chrome.events.Event
+import kotlin.js.Json
 import kotlin.js.Promise
 import kotlin.js.collections.JsReadonlyArray
-import kotlin.js.collections.JsReadonlyMap
 
 @Suppress("unused")
 external interface StorageArea {
@@ -76,7 +76,7 @@ external interface StorageArea {
 	 * @return A void Promise
 	 * @since MV3
 	 */
-	fun set(items: JsReadonlyMap<String, Any?>): Promise<Unit>
+	fun set(items: Json): Promise<Unit>
 
 	/**
 	 * Sets multiple items.
@@ -85,7 +85,7 @@ external interface StorageArea {
 	 * @param callback Optional.
 	 * Callback on success, or on failure (in which case runtime.lastError will be set).
 	 */
-	fun set(items: JsReadonlyMap<String, Any?>, callback: () -> Unit)
+	fun set(items: Json, callback: () -> Unit)
 
 	/**
 	 * Removes one or more items from storage.
@@ -137,7 +137,7 @@ external interface StorageArea {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	fun get(keys: String? = definedExternally): Promise<JsReadonlyMap<String, Any?>>
+	fun get(keys: String? = definedExternally): Promise<Json>
 
 	/**
 	 * Gets one or more items from storage.
@@ -146,7 +146,7 @@ external interface StorageArea {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	fun get(keys: Array<String>? = definedExternally): Promise<JsReadonlyMap<String, Any?>>
+	fun get(keys: Array<String>? = definedExternally): Promise<Json>
 
 	/**
 	 * Gets one or more items from storage.
@@ -155,7 +155,7 @@ external interface StorageArea {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	fun get(keys: JsReadonlyMap<String, Any?>? = definedExternally): Promise<JsReadonlyMap<String, Any?>>
+	fun get(keys: Json? = definedExternally): Promise<Json>
 
 	/**
 	 * Gets one or more items from storage.
@@ -164,7 +164,7 @@ external interface StorageArea {
 	 * @param callback Callback with storage items, or on failure (in which case runtime.lastError will be set).
 	 * Parameter items: Object with items in their key-value mappings.
 	 */
-	fun get(keys: String?, callback: (items: JsReadonlyMap<String, Any?>) -> Unit)
+	fun get(keys: String?, callback: (items: Json) -> Unit)
 
 	/**
 	 * Gets one or more items from storage.
@@ -173,7 +173,7 @@ external interface StorageArea {
 	 * @param callback Callback with storage items, or on failure (in which case runtime.lastError will be set).
 	 * Parameter items: Object with items in their key-value mappings.
 	 */
-	fun get(keys: Array<String>?, callback: (items: JsReadonlyMap<String, Any?>) -> Unit)
+	fun get(keys: Array<String>?, callback: (items: Json) -> Unit)
 
 	/**
 	 * Gets one or more items from storage.
@@ -182,14 +182,14 @@ external interface StorageArea {
 	 * @param callback Callback with storage items, or on failure (in which case runtime.lastError will be set).
 	 * Parameter items: Object with items in their key-value mappings.
 	 */
-	fun get(keys:JsReadonlyMap<String, Any?>?, callback: (items: JsReadonlyMap<String, Any?>) -> Unit)
+	fun get(keys: Json?, callback: (items: Json) -> Unit)
 
 	/**
 	 * Gets the entire contents of storage.
 	 * @param callback Callback with storage items, or on failure (in which case runtime.lastError will be set).
 	 * Parameter items: Object with items in their key-value mappings.
 	 */
-	fun get(callback: (items: JsReadonlyMap<String, Any?>) -> Unit)
+	fun get(callback: (items: Json) -> Unit)
 
 	/**
 	 * Sets the desired access level for the storage area. The default will be only trusted contexts.

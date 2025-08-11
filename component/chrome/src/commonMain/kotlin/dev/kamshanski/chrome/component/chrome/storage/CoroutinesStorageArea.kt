@@ -4,10 +4,11 @@ import chrome.events.Event
 import chrome.storage.StorageArea
 import chrome.storage.StorageAreaSetAccessLevelAccessOptions
 import chrome.storage.StorageChangeMap
+import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
-import kotlin.js.collections.JsReadonlyArray
-import kotlin.js.collections.JsReadonlyMap
+import kotlin.js.Json
 
+@OptIn(ExperimentalJsExport::class)
 open class CoroutinesStorageArea(val delegate: StorageArea) {
 
 	/**
@@ -48,7 +49,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A void Promise
 	 * @since MV3
 	 */
-	suspend fun set(items: JsReadonlyMap<String, Any?>): Unit = delegate.set(items).await()
+	suspend fun set(items: Json): Unit = delegate.set(items).await()
 
 	/**
 	 * Removes one or more items from storage.
@@ -75,7 +76,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	suspend fun get(keys: String?): JsReadonlyMap<String, Any?> = delegate.get(keys).await()
+	suspend fun get(keys: String?): Json = delegate.get(keys).await()
 
 	/**
 	 * Gets one or more items from storage.
@@ -84,7 +85,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	suspend fun get(keys: Array<String>): JsReadonlyMap<String, Any?> = delegate.get(keys).await()
+	suspend fun get(keys: Array<String>): Json = delegate.get(keys).await()
 
 	/**
 	 * Gets one or more items from storage.
@@ -93,7 +94,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with an object containing items
 	 * @since MV3
 	 */
-	suspend fun get(keys: JsReadonlyMap<String, Any?>): JsReadonlyMap<String, Any?> = delegate.get(keys).await()
+	suspend fun get(keys: Json): Json = delegate.get(keys).await() as Json
 
 	/**
 	 * Sets the desired access level for the storage area. The default will be only trusted contexts.
@@ -108,7 +109,7 @@ open class CoroutinesStorageArea(val delegate: StorageArea) {
 	 * @return A Promise that resolves with an array of keys.
 	 * @since Chrome 130
 	 */
-	suspend fun getKeys(): JsReadonlyArray<String> = delegate.getKeys().await()
+	suspend fun getKeys(): List<String> = delegate.getKeys().await().asList()
 
 	/**
 	 * Fired when one or more items change within this storage area.
