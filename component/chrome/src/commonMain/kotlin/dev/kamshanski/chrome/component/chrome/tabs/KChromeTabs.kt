@@ -32,7 +32,7 @@ import kotlinx.coroutines.await
 import kotlin.js.collections.JsReadonlyArray
 
 @Suppress("unused")
-object ChromeCoroutinesTabs {
+object KChromeTabs {
 
 	/**
 	 * The maximum number of times that {@link captureVisibleTab} can be called per second. {@link captureVisibleTab} is expensive and should not be called too often.

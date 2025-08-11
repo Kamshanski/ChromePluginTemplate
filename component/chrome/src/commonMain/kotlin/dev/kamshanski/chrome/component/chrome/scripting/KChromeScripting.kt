@@ -13,7 +13,7 @@ import kotlin.js.collections.JsReadonlyArray
  * @see chrome.scripting.ChromeScripting
  */
 @Suppress("unused")
-object ChromeCoroutinesScripting {
+object KChromeScripting {
 
 	/**
 	 * Injects a script into a target context. By default, the script will be run at `document_idle`, or immediately if the page has already loaded.

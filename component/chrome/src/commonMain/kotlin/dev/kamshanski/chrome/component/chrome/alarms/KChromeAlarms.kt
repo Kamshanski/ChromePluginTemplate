@@ -5,7 +5,6 @@ import chrome.alarms.AlarmCreateInfo
 import chrome.alarms.ChromeAlarms
 import chrome.events.Event
 import kotlinx.coroutines.await
-import kotlin.js.Promise
 import kotlin.js.collections.JsReadonlyArray
 
 /**
@@ -14,7 +13,7 @@ import kotlin.js.collections.JsReadonlyArray
  * Permissions: "alarms"
  */
 @Suppress("unused")
-object ChromeCoroutinesAlarms {
+object KChromeAlarms {
 
 	/**
 	 * Creates an alarm. Near the time(s) specified by alarmInfo, the onAlarm event is fired. If there is another alarm with the same name (or no name if none is specified), it will be cancelled and replaced by this alarm.

@@ -8,7 +8,6 @@ import chrome.windows.UpdateInfo
 import chrome.windows.Window
 import chrome.windows.WindowsEvent
 import kotlinx.coroutines.await
-import kotlin.js.Promise
 import kotlin.js.collections.JsReadonlyArray
 
 /**
@@ -17,7 +16,7 @@ import kotlin.js.collections.JsReadonlyArray
  * Permissions: The chrome.windows API can be used without declaring any permission. However, the "tabs" permission is required in order to populate the url, title, and favIconUrl properties of Tab objects.
  */
 @Suppress("unused")
-object ChromeCoroutinesWindows {
+object KChromeWindows {
 
 	/** The windowId value that represents the current window. */
 	val WINDOW_ID_CURRENT: Int /* -2 */ by ChromeWindows::WINDOW_ID_CURRENT

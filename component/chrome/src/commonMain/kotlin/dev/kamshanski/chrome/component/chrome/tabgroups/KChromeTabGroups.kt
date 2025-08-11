@@ -7,7 +7,6 @@ import chrome.tabgroups.QueryInfo
 import chrome.tabgroups.TabGroup
 import chrome.tabgroups.UpdateProperties
 import kotlinx.coroutines.await
-import kotlin.js.Promise
 import kotlin.js.collections.JsReadonlyArray
 
 /**
@@ -16,7 +15,7 @@ import kotlin.js.collections.JsReadonlyArray
  * Permissions: "tabGroups"
  * @since Chrome 89, MV3
  */
-object ChromeCoroutinesTabGroups {
+object KChromeTabGroups {
 
 	/** An ID that represents the absence of a group. */
 	val TAB_GROUP_ID_NONE: Int by ChromeTabGroups::TAB_GROUP_ID_NONE

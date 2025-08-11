@@ -16,7 +16,7 @@ import kotlin.js.collections.JsReadonlyArray
 import dev.kamshanski.chrome.util.common.asList
 
 @Suppress("unused")
-object ChromeCoroutinesBookmarks {
+object KChromeBookmarks {
 
 	/** Fired when a bookmark or folder changes. **Note:** Currently, only title and url changes trigger this.*/
 	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> by ChromeBookmarks::onChanged

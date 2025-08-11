@@ -11,7 +11,7 @@ import chrome.storage.StorageChangeMap
  * Permissions: "storage"
  */
 @Suppress("unused")
-object ChromeCoroutinesStorage {
+object KChromeStorage {
 
 	/** Items in the local storage area are local to each machine. */
 	var local: LocalCoroutinesStorageArea = LocalCoroutinesStorageArea(ChromeStorage.local)

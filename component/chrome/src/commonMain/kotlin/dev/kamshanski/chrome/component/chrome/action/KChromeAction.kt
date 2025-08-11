@@ -14,7 +14,6 @@ import chrome.events.Event
 import chrome.extensiontypes.ColorArray
 import chrome.tabs.Tab
 import kotlinx.coroutines.await
-import kotlin.js.Promise
 
 /**
  * Use the `chrome.action` API to control the extension's icon in the Google Chrome toolbar.
@@ -24,7 +23,7 @@ import kotlin.js.Promise
  * @since Chrome 88, MV3
  */
 @Suppress("unused")
-object ChromeCoroutinesAction {
+object KChromeAction {
 
 	/**
 	 * Disables the action for a tab.

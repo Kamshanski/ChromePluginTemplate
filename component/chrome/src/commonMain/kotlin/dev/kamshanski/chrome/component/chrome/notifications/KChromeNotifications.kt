@@ -14,7 +14,7 @@ import kotlin.js.Json
  * Permissions: "notifications"
  */
 @Suppress("unused")
-object ChromeCoroutinesNotifications {
+object KChromeNotifications {
 
 	/**
 	 * Clears the specified notification.
