@@ -175,7 +175,8 @@ object KChromeTabs {
 	 */
 	suspend fun <
 		MESSAGE /* default is Any? */,
-		RESPONSE /* default is Any? */>
+		RESPONSE /* default is Any? */
+		>
 		sendMessage(tabId: Int, message: MESSAGE, options: MessageSendOptions): RESPONSE = ChromeTabs.sendMessage<MESSAGE, RESPONSE>(tabId, message, options).await()
 
 	suspend fun <

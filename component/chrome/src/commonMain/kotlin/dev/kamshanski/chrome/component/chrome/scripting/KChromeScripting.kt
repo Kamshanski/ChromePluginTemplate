@@ -45,32 +45,32 @@ object KChromeScripting {
 
 	/**
 	 * Registers one or more content scripts for this extension
-	 * @param scripts Contains a list of scripts to be registered. If there are errors during script parsing/file validation, or if the IDs specified already exist, then no scripts are registered.
 	 * @since Chrome 96
+	 * @param scripts Contains a list of scripts to be registered. If there are errors during script parsing/file validation, or if the IDs specified already exist, then no scripts are registered.
 	 */
 	suspend fun registerContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.registerContentScripts(scripts.asJsReadonlyArrayView()).await()
 
 	/**
 	 * Unregisters content scripts for this extension.
-	 * @param filter If specified, only unregisters dynamic content scripts which match the filter. Otherwise, all of the extension's dynamic content scripts are unregistered.
 	 * @since Chrome 96
+	 * @param filter If specified, only unregisters dynamic content scripts which match the filter. Otherwise, all of the extension's dynamic content scripts are unregistered.
 	 */
 	suspend fun unregisterContentScripts() = ChromeScripting.unregisterContentScripts().await()
 	suspend fun unregisterContentScripts(filter: ContentScriptFilter) = ChromeScripting.unregisterContentScripts(filter).await()
 
 	/**
 	 * Returns all dynamically registered content scripts for this extension that match the given filter.
-	 * @param filter An object to filter the extension's dynamically registered scripts.
 	 * @since Chrome 96
+	 * @param filter An object to filter the extension's dynamically registered scripts.
 	 */
 	suspend fun getRegisteredContentScripts(): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts().await()
 	suspend fun getRegisteredContentScripts(filter: ContentScriptFilter): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts(filter).await()
 
 	/**
 	 * Updates one or more content scripts for this extension.
+	 * @since Chrome 96
 	 * @param scripts Contains a list of scripts to be updated. A property is only updated for the existing script if it is specified in this object.
 	 * If there are errors during script parsing/file validation, or if the IDs specified do not correspond to a fully registered script, then no scripts are updated.
-	 * @since Chrome 96
 	 */
 	suspend fun updateContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.updateContentScripts(scripts.asJsReadonlyArrayView()).await()
 }
