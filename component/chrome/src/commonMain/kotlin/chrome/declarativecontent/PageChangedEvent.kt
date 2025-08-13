@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.declarativecontent")
-
 package chrome.declarativecontent
 
 import chrome.events.Event

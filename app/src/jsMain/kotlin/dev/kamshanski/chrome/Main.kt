@@ -1,6 +1,6 @@
 package dev.kamshanski.chrome
 
-import dev.kamshanski.chrome.component.chrome.bookmarks.ChromeCoroutinesBookmarks
+import dev.kamshanski.chrome.component.chrome.bookmarks.KChromeBookmarks
 import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
 import dev.kamshanski.chrome.component.chrome.bookmarks.childList
 import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
@@ -42,7 +42,7 @@ fun main() {
 
 		bookmarksCountButton.setOnClickListener {
 			scope.launch {
-				with(ChromeCoroutinesBookmarks) {
+				with(KChromeBookmarks) {
 					val root = getTree().first()
 					val bookmarksBar = root.findBookmarksBarNodeOrNull()
 					val files = bookmarksBar?.childList?.filter { it.isFile } ?: error("No files found")

@@ -13,6 +13,7 @@ import kotlin.js.collections.JsReadonlyArray
  * @since Chrome 89, MV3
  */
 @JsName("tabGroups")
+@Suppress("unused")
 external object ChromeTabGroups {
 
 	/** An ID that represents the absence of a group. */
@@ -23,8 +24,8 @@ external object ChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	fun get(groupId: Double): Promise<TabGroup>
-	fun get(groupId: Double, callback: (group: TabGroup) -> Unit)
+	fun get(groupId: Int): Promise<TabGroup>
+	fun get(groupId: Int, callback: (group: TabGroup) -> Unit)
 
 	/**
 	 * Moves the group and all its tabs within its window, or to a new window.
@@ -32,8 +33,8 @@ external object ChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	fun move(groupId: Double, moveProperties: MoveProperties): Promise<TabGroup?>
-	fun move(groupId: Double, moveProperties: MoveProperties, callback: (group: TabGroup? /* use undefined for default */) -> Unit)
+	fun move(groupId: Int, moveProperties: MoveProperties): Promise<TabGroup?>
+	fun move(groupId: Int, moveProperties: MoveProperties, callback: (group: TabGroup? /* use undefined for default */) -> Unit)
 
 	/**
 	 * Gets all groups that have the specified properties, or all groups if no properties are specified.
@@ -49,8 +50,8 @@ external object ChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	fun update(groupId: Double, updateProperties: UpdateProperties): Promise<TabGroup?>
-	fun update(groupId: Double, updateProperties: UpdateProperties, callback: (group: TabGroup? /* use undefined for default */) -> Unit)
+	fun update(groupId: Int, updateProperties: UpdateProperties): Promise<TabGroup?>
+	fun update(groupId: Int, updateProperties: UpdateProperties, callback: (group: TabGroup? /* use undefined for default */) -> Unit)
 
 	/** Fired when a group is created. */
 	val onCreated: Event<(group: TabGroup) -> Unit>

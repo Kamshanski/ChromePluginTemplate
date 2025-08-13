@@ -16,10 +16,10 @@ import kotlin.js.collections.JsReadonlyArray
 external object ChromeWindows {
 
 	/** The windowId value that represents the current window. */
-	val WINDOW_ID_CURRENT: Double /* -2 */
+	val WINDOW_ID_CURRENT: Int /* -2 */
 
 	/** The windowId value that represents the absence of a Chrome browser window */
-	val WINDOW_ID_NONE: Double /* -1 */
+	val WINDOW_ID_NONE: Int /* -1 */
 
 	/**
 	 * Gets details about a window.

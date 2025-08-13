@@ -1,5 +1,3 @@
-@file:JsQualifier("chrome.tabs")
-
 package chrome.tabs
 
 external interface HighlightInfo {
@@ -11,3 +9,14 @@ external interface HighlightInfo {
 	/** The window that contains the tabs. */
 	var windowId: Int?
 }
+
+fun HighlightInfo(
+	/** One or more tab indices to highlight. */
+	tabs: List<Int>,
+	/** The window that contains the tabs. */
+	windowId: Int? = null,
+): HighlightInfo =
+	js("{}").unsafeCast<HighlightInfo>().apply {
+		this.tabs = tabs
+		this.windowId = windowId
+	}

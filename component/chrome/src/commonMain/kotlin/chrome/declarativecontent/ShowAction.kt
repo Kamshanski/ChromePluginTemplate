@@ -1,4 +1,4 @@
-@file:JsQualifier("chrome.declarativecontent")
+@file:JsQualifier("chrome.declarativeContent")
 
 package chrome.declarativecontent
 
