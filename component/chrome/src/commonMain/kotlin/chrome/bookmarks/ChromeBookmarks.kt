@@ -96,8 +96,8 @@ external object ChromeBookmarks {
 	 *
 	 * Can return its result via Promise since Chrome Chrome 90
 	 */
-	fun getRecent(numberOfItems: Double): Promise<JsReadonlyArray<BookmarkTreeNode>>
-	fun getRecent(numberOfItems: Double, callback: (results: JsReadonlyArray<BookmarkTreeNode>) -> Unit)
+	fun getRecent(numberOfItems: Int): Promise<JsReadonlyArray<BookmarkTreeNode>>
+	fun getRecent(numberOfItems: Int, callback: (results: JsReadonlyArray<BookmarkTreeNode>) -> Unit)
 
 	/**
 	 * Retrieves part of the Bookmarks hierarchy, starting at the specified node.

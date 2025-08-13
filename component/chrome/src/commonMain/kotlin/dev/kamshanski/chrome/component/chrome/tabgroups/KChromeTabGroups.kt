@@ -25,7 +25,7 @@ object KChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	suspend fun get(groupId: Double): TabGroup = ChromeTabGroups.get(groupId).await()
+	suspend fun get(groupId: Int): TabGroup = ChromeTabGroups.get(groupId).await()
 
 	/**
 	 * Moves the group and all its tabs within its window, or to a new window.
@@ -33,7 +33,7 @@ object KChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	suspend fun move(groupId: Double, moveProperties: MoveProperties): TabGroup? = ChromeTabGroups.move(groupId, moveProperties).await()
+	suspend fun move(groupId: Int, moveProperties: MoveProperties): TabGroup? = ChromeTabGroups.move(groupId, moveProperties).await()
 
 	/**
 	 * Gets all groups that have the specified properties, or all groups if no properties are specified.
@@ -48,7 +48,7 @@ object KChromeTabGroups {
 	 *
 	 * Can return its result via Promise since Chrome 90.
 	 */
-	suspend fun update(groupId: Double, updateProperties: UpdateProperties): TabGroup? = ChromeTabGroups.update(groupId, updateProperties).await()
+	suspend fun update(groupId: Int, updateProperties: UpdateProperties): TabGroup? = ChromeTabGroups.update(groupId, updateProperties).await()
 
 	/** Fired when a group is created. */
 	val onCreated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onCreated

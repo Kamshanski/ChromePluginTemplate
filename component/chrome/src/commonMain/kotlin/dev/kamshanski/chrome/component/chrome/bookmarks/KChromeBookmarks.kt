@@ -89,7 +89,7 @@ object KChromeBookmarks {
 	 *
 	 * Suspend version enabled since Chrome Chrome 90
 	 */
-	suspend fun getRecent(numberOfItems: Double): List<BookmarkTreeNode> =
+	suspend fun getRecent(numberOfItems: Int): List<BookmarkTreeNode> =
 		ChromeBookmarks.getRecent(numberOfItems).await().asList()
 
 	/**
