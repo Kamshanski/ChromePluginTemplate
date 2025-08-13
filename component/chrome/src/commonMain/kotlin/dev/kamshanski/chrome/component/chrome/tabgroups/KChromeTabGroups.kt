@@ -9,56 +9,43 @@ import chrome.tabgroups.UpdateProperties
 import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
 
-/**
- * Use the `chrome.tabGroups` API to interact with the browser's tab grouping system. You can use this API to modify and rearrange tab groups in the browser. To group and ungroup tabs, or to query what tabs are in groups, use the `chrome.tabs` API.
- *
- * Permissions: "tabGroups"
- * @since Chrome 89, MV3
- */
-object KChromeTabGroups {
+interface KChromeTabGroups {
+	companion object : KChromeTabGroups {
 
-	/** An ID that represents the absence of a group. */
-	val TAB_GROUP_ID_NONE: Int by ChromeTabGroups::TAB_GROUP_ID_NONE
+		override val TAB_GROUP_ID_NONE: Int by ChromeTabGroups::TAB_GROUP_ID_NONE
 
-	/**
-	 * Retrieves details about the specified group.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 */
-	suspend fun get(groupId: Int): TabGroup = ChromeTabGroups.get(groupId).await()
+		override val onCreated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onCreated
 
-	/**
-	 * Moves the group and all its tabs within its window, or to a new window.
-	 * @param groupId The ID of the group to move.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 */
-	suspend fun move(groupId: Int, moveProperties: MoveProperties): TabGroup? = ChromeTabGroups.move(groupId, moveProperties).await()
+		override val onMoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onMoved
 
-	/**
-	 * Gets all groups that have the specified properties, or all groups if no properties are specified.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 */
-	suspend fun query(queryInfo: QueryInfo): List<TabGroup> = ChromeTabGroups.query(queryInfo).await().asList()
+		override val onRemoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onRemoved
 
-	/**
-	 * Modifies the properties of a group. Properties that are not specified in `updateProperties` are not modified.
-	 * @param groupId The ID of the group to modify.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 */
-	suspend fun update(groupId: Int, updateProperties: UpdateProperties): TabGroup? = ChromeTabGroups.update(groupId, updateProperties).await()
+		override val onUpdated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onUpdated
 
-	/** Fired when a group is created. */
-	val onCreated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onCreated
+		override suspend fun get(groupId: Int): TabGroup = ChromeTabGroups.get(groupId).await()
 
-	/** Fired when a group is moved within a window. Move events are still fired for the individual tabs within the group, as well as for the group itself. This event is not fired when a group is moved between windows; instead, it will be removed from one window and created in another. */
-	val onMoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onMoved
+		override suspend fun move(groupId: Int, moveProperties: MoveProperties): TabGroup? = ChromeTabGroups.move(groupId, moveProperties).await()
 
-	/** Fired when a group is closed, either directly by the user or automatically because it contained zero tabs. */
-	val onRemoved: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onRemoved
+		override suspend fun query(queryInfo: QueryInfo): List<TabGroup> = ChromeTabGroups.query(queryInfo).await().asList()
 
-	/** Fired when a group is updated. */
-	val onUpdated: Event<(group: TabGroup) -> Unit> by ChromeTabGroups::onUpdated
+		override suspend fun update(groupId: Int, updateProperties: UpdateProperties): TabGroup? = ChromeTabGroups.update(groupId, updateProperties).await()
+	}
+
+	val TAB_GROUP_ID_NONE: Int
+
+	val onCreated: Event<(group: TabGroup) -> Unit>
+
+	val onMoved: Event<(group: TabGroup) -> Unit>
+
+	val onRemoved: Event<(group: TabGroup) -> Unit>
+
+	val onUpdated: Event<(group: TabGroup) -> Unit>
+
+	suspend fun get(groupId: Int): TabGroup
+
+	suspend fun move(groupId: Int, moveProperties: MoveProperties): TabGroup?
+
+	suspend fun query(queryInfo: QueryInfo): List<TabGroup>
+
+	suspend fun update(groupId: Int, updateProperties: UpdateProperties): TabGroup?
 }

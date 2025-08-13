@@ -15,140 +15,88 @@ import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
 
 @Suppress("unused")
-object KChromeBookmarks {
+interface KChromeBookmarks {
 
-	/** Fired when a bookmark or folder changes. **Note:** Currently, only title and url changes trigger this.*/
-	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> by ChromeBookmarks::onChanged
+	companion object : KChromeBookmarks {
 
-	/** Fired when the children of a folder have changed their order due to the order being sorted in the UI. This is not called as a result of a move(). */
-	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> by ChromeBookmarks::onChildrenReordered
+		override val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit> by ChromeBookmarks::onChanged
 
-	/** Fired when a bookmark or folder is created. */
-	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> by ChromeBookmarks::onCreated
+		override val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit> by ChromeBookmarks::onChildrenReordered
 
-	/** Fired when a bookmark import session is begun. Expensive observers should ignore onCreated updates until onImportEnded is fired. Observers should still handle other notifications immediately. */
-	val onImportBegan: Event<() -> Unit> by ChromeBookmarks::onImportBegan
+		override val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit> by ChromeBookmarks::onCreated
 
-	/** Fired when a bookmark import session is ended.  */
-	val onImportEnded: Event<() -> Unit> by ChromeBookmarks::onImportEnded
+		override val onImportBegan: Event<() -> Unit> by ChromeBookmarks::onImportBegan
 
-	/** Fired when a bookmark or folder is moved to a different parent folder. */
-	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> by ChromeBookmarks::onMoved
+		override val onImportEnded: Event<() -> Unit> by ChromeBookmarks::onImportEnded
 
-	/** Fired when a bookmark or folder is removed. When a folder is removed recursively, a single notification is fired for the folder, and none for its contents. */
-	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> by ChromeBookmarks::onRemoved
+		override val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit> by ChromeBookmarks::onMoved
 
-	/**
-	 * Creates a bookmark or folder under the specified parentId. If url is NULL or missing, it will be a folder.
-	 *
-	 * Suspend version enabled since Chrome 90.
-	 */
-	suspend fun create(bookmark: CreateDetails): BookmarkTreeNode =
-		ChromeBookmarks.create(bookmark).await()
+		override val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit> by ChromeBookmarks::onRemoved
 
-	/**
-	 * Retrieves the entire Bookmarks hierarchy.
-	 *
-	 * Suspend version enabled since Chrome 90
-	 */
-	suspend fun getTree(): List<BookmarkTreeNode> {
-		return ChromeBookmarks.getTree().await().asList()
+		override suspend fun create(bookmark: CreateDetails): BookmarkTreeNode = ChromeBookmarks.create(bookmark).await()
+
+		override suspend fun getTree(): List<BookmarkTreeNode> = ChromeBookmarks.getTree().await().asList()
+
+		override suspend fun get(id: String): List<BookmarkTreeNode> = ChromeBookmarks.get(id).await().asList()
+
+		override suspend fun get(idList: Array<String>): List<BookmarkTreeNode> = ChromeBookmarks.get(idList).await().asList()
+
+		override suspend fun getChildren(id: String): List<BookmarkTreeNode> = ChromeBookmarks.getChildren(id).await().asList()
+
+		override suspend fun getRecent(numberOfItems: Int): List<BookmarkTreeNode> = ChromeBookmarks.getRecent(numberOfItems).await().asList()
+
+		override suspend fun getSubTree(id: String): List<BookmarkTreeNode> = ChromeBookmarks.getSubTree(id).await().asList()
+
+		override suspend fun move(id: String, destination: MoveDestination): BookmarkTreeNode = ChromeBookmarks.move(id, destination).await()
+
+		override suspend fun remove(id: String) = ChromeBookmarks.remove(id).await()
+
+		override suspend fun removeTree(id: String) = ChromeBookmarks.removeTree(id).await()
+
+		override suspend fun search(query: String): List<BookmarkTreeNode> = ChromeBookmarks.search(query).await().asList()
+
+		override suspend fun search(query: SearchQuery): List<BookmarkTreeNode> = ChromeBookmarks.search(query).await().asList()
+
+		override suspend fun update(id: String, changes: UpdateChanges): BookmarkTreeNode = ChromeBookmarks.update(id, changes).await()
 	}
 
-	/**
-	 * Retrieves the specified BookmarkTreeNode(s).
-	 * @param id A single string-valued id, or an array of string-valued ids
-	 *
-	 * Suspend version enabled since Chrome 90.
-	 */
-	suspend fun get(id: String): List<BookmarkTreeNode> =
-		ChromeBookmarks.get(id).await().asList()
+	val onChanged: Event<(id: String, changeInfo: ChangeInfo) -> Unit>
 
-	/**
-	 * Retrieves the specified BookmarkTreeNode(s).
-	 * @param idList A single string-valued id, or an array of string-valued ids
-	 *
-	 * Suspend version enabled since Chrome 90.
-	 */
-	suspend fun get(
-		idList: Array<String>
-	): List<BookmarkTreeNode> =
-		ChromeBookmarks.get(idList).await().asList()
+	val onChildrenReordered: Event<(id: String, reorderInfo: ReorderInfo) -> Unit>
 
-	/**
-	 * Retrieves the children of the specified BookmarkTreeNode id.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun getChildren(id: String): List<BookmarkTreeNode> =
-		ChromeBookmarks.getChildren(id).await().asList()
+	val onCreated: Event<(id: String, bookmark: BookmarkTreeNode) -> Unit>
 
-	/**
-	 * Retrieves the recently added bookmarks.
-	 * @param numberOfItems The maximum number of items to return.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun getRecent(numberOfItems: Int): List<BookmarkTreeNode> =
-		ChromeBookmarks.getRecent(numberOfItems).await().asList()
+	val onImportBegan: Event<() -> Unit>
 
-	/**
-	 * Retrieves part of the Bookmarks hierarchy, starting at the specified node.
-	 * @param id The ID of the root of the subtree to retrieve.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun getSubTree(id: String): List<BookmarkTreeNode> =
-		ChromeBookmarks.getSubTree(id).await().asList()
+	val onImportEnded: Event<() -> Unit>
 
-	/**
-	 * Moves the specified BookmarkTreeNode to the provided location.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun move(id: String, destination: MoveDestination): BookmarkTreeNode =
-		ChromeBookmarks.move(id, destination).await()
+	val onMoved: Event<(id: String, moveInfo: MoveInfo) -> Unit>
 
-	/**
-	 * Removes a bookmark or an empty bookmark folder.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun remove(id: String) =
-		ChromeBookmarks.remove(id).await()
+	val onRemoved: Event<(id: String, removeInfo: RemoveInfo) -> Unit>
 
-	/**
-	 * Recursively removes a bookmark folder.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun removeTree(id: String) =
-		ChromeBookmarks.removeTree(id).await()
+	suspend fun create(bookmark: CreateDetails): BookmarkTreeNode
 
-	/**
-	 * Searches for BookmarkTreeNodes matching the given query. Queries specified with an object produce BookmarkTreeNodes matching all specified properties.
-	 * @param query Either a string of words and quoted phrases that are matched against bookmark URLs and titles, or an object. If an object, the properties `query`, `url`, and `title` may be specified and bookmarks matching all specified properties will be produced.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun search(query: String): List<BookmarkTreeNode> =
-		ChromeBookmarks.search(query).await().asList()
+	suspend fun getTree(): List<BookmarkTreeNode>
 
-	/**
-	 * Searches for BookmarkTreeNodes matching the given query. Queries specified with an object produce BookmarkTreeNodes matching all specified properties.
-	 * @param query Either a string of words and quoted phrases that are matched against bookmark URLs and titles, or an object. If an object, the properties `query`, `url`, and `title` may be specified and bookmarks matching all specified properties will be produced.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun search(query: SearchQuery): List<BookmarkTreeNode> =
-		ChromeBookmarks.search(query).await().asList()
+	suspend fun get(id: String): List<BookmarkTreeNode>
 
-	/**
-	 * Updates the properties of a bookmark or folder. Specify only the properties that you want to change; unspecified properties will be left unchanged. **Note:** Currently, only 'title' and 'url' are supported.
-	 *
-	 * Suspend version enabled since Chrome Chrome 90
-	 */
-	suspend fun update(id: String, changes: UpdateChanges): BookmarkTreeNode =
-		ChromeBookmarks.update(id, changes).await()
+	suspend fun get(idList: Array<String>): List<BookmarkTreeNode>
+
+	suspend fun getChildren(id: String): List<BookmarkTreeNode>
+
+	suspend fun getRecent(numberOfItems: Int): List<BookmarkTreeNode>
+
+	suspend fun getSubTree(id: String): List<BookmarkTreeNode>
+
+	suspend fun move(id: String, destination: MoveDestination): BookmarkTreeNode
+
+	suspend fun remove(id: String)
+
+	suspend fun removeTree(id: String)
+
+	suspend fun search(query: String): List<BookmarkTreeNode>
+
+	suspend fun search(query: SearchQuery): List<BookmarkTreeNode>
+
+	suspend fun update(id: String, changes: UpdateChanges): BookmarkTreeNode
 }
-

@@ -32,355 +32,257 @@ import dev.kamshanski.chrome.util.common.asList
 import kotlinx.coroutines.await
 
 @OptIn(ExperimentalJsExport::class)
-@Suppress("unused", "KDocUnresolvedReference")
-object KChromeTabs {
+@Suppress("unused")
+interface KChromeTabs {
+	companion object : KChromeTabs{
 
-	/**
-	 * The maximum number of times that {@link captureVisibleTab} can be called per second. {@link captureVisibleTab} is expensive and should not be called too often.
-	 * @since Chrome 92
-	 */
-	val MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND: Any? by ChromeTabs::MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND
+		override val MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND: Any? by ChromeTabs::MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND
 
-	/**
-	 * An ID that represents the absence of a browser tab.
-	 * @since Chrome 46
-	 */
-	val TAB_ID_NONE: Any? by ChromeTabs::TAB_ID_NONE
+		override val TAB_ID_NONE: Any? by ChromeTabs::TAB_ID_NONE
 
-	/**
-	 * An index that represents the absence of a tab index in a tab_strip.
-	 * @since Chrome 123
-	 */
-	val TAB_INDEX_NONE: Any? by ChromeTabs::TAB_INDEX_NONE
+		override val TAB_INDEX_NONE: Any? by ChromeTabs::TAB_INDEX_NONE
 
-	/**
-	 * Injects JavaScript code into a page. For details, see the programmatic injection section of the content scripts doc.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 *
-	 * MV2 only
-	 * @param tabId The ID of the tab in which to run the script; defaults to the active tab of the current window.
-	 * @param details Details of the script to run. Either the code or the file property must be set, but both may not be set at the same time
-	 * @deprecated since Chrome 99. Replaced by {@link scripting.executeScript} in Manifest V3.
-	 */
-	suspend fun executeScript(tabId: Int?, details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(tabId, details).await()?.asList()
-	suspend fun executeScript(details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(details).await()?.asList()
+		override val onHighlighted: Event<(highlightInfo: OnHighlightedInfo) -> Unit> by ChromeTabs::onHighlighted
 
-	/**
-	 * Retrieves details about the specified tab
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 */
-	suspend fun get(tabId: Int): Tab = ChromeTabs.get(tabId).await()
+		override val onRemoved: Event<(tabId: Int, removeInfo: OnRemovedInfo) -> Unit> by ChromeTabs::onRemoved
 
-	/**
-	 * Gets details about all tabs in the specified window.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 *
-	 * MV2 only
-	 * @deprecated Please use {@link tabs.query} `{windowId: windowId}`.
-	 */
-	suspend fun getAllInWindow(windowId: Int): List<Tab> = ChromeTabs.getAllInWindow(windowId).await().asList()
+		override val onUpdated: Event<(tabId: Int, changeInfo: OnUpdatedInfo, tab: Tab) -> Unit> by ChromeTabs::onUpdated
 
-	/**
-	 * Gets the tab that this script call is being made from. Returns `undefined` if called from a non-tab context (for example, a background page or popup view).
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 */
-	suspend fun getCurrent(): Tab? = ChromeTabs.getCurrent().await()
+		override val onAttached: Event<(tabId: Int, attachInfo: OnAttachedInfo) -> Unit> by ChromeTabs::onAttached
 
-	/**
-	 * Gets the tab that is selected in the specified window.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 *
-	 * MV2 only
-	 * @param windowId Defaults to the current window.
-	 * @deprecated Please use {@link tabs.query} `{active: true}`.
-	 */
-	suspend fun getSelected(windowId: Int): Tab = ChromeTabs.getSelected(windowId).await()
-	suspend fun getSelected(): Tab = ChromeTabs.getSelected().await()
+		override val onMoved: Event<(tabId: Int, moveInfo: OnMovedInfo) -> Unit> by ChromeTabs::onMoved
 
-	/**
-	 * Creates a new tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 */
-	suspend fun create(createProperties: CreateProperties): Tab = ChromeTabs.create(createProperties).await()
+		override val onDetached: Event<(tabId: Int, detachInfo: OnDetachedInfo) -> Unit> by ChromeTabs::onDetached
 
-	/**
-	 * Moves one or more tabs to a new position within its window, or to a new window. Note that tabs can only be moved to and from normal (window.type === "normal") windows.
-	 * @param tabId The tab ID to move.
-	 * @param tabIds List of tab IDs to move.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 */
-	suspend fun move(tabIds: List<Int>, moveProperties: MoveProperties): List<Tab> = ChromeTabs.move(tabIds.asJsReadonlyArrayView(), moveProperties).await().asList()
-	suspend fun move(tabId: Int, moveProperties: MoveProperties): Tab = ChromeTabs.move(tabId, moveProperties).await()
+		override val onCreated: Event<(tab: Tab) -> Unit> by ChromeTabs::onCreated
 
-	/**
-	 * Modifies the properties of a tab. Properties that are not specified in `updateProperties` are not modified.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId Defaults to the selected tab of the current window.
-	 */
-	suspend fun update(tabId: Int, updateProperties: UpdateProperties): Tab? = ChromeTabs.update(tabId, updateProperties).await()
-	suspend fun update(updateProperties: UpdateProperties): Tab? = ChromeTabs.update(updateProperties).await()
+		override val onActivated: Event<(activeInfo: OnActivatedInfo) -> Unit> by ChromeTabs::onActivated
 
-	/**
-	 * Closes one or more tabs.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The tab ID to close.
-	 * @param tabIds List of tab IDs to close.
-	 */
-	suspend fun remove(tabId: Int) = ChromeTabs.remove(tabId).await()
-	suspend fun remove(tabIds: List<Int>) = ChromeTabs.remove(tabIds.asJsReadonlyArrayView()).await()
+		override val onReplaced: Event<(addedTabId: Int, removedTabId: Int) -> Unit> by ChromeTabs::onReplaced
 
-	/**
-	 * Captures the visible area of the currently active tab in the specified window. In order to call this method, the extension must have either the [<all\_urls>](https://developer.chrome.com/extensions/develop/concepts/declare-permissions) permission or the [activeTab](https://developer.chrome.com/docs/extensions/develop/concepts/activeTab) permission. In addition to sites that extensions can normally access, this method allows extensions to capture sensitive sites that are otherwise restricted, including chrome:-scheme pages, other extensions' pages, and data: URLs. These sensitive sites can only be captured with the activeTab permission. File URLs may be captured only if the extension has been granted file access.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param windowId The target window. Defaults to the current window.
-	 */
-	suspend fun captureVisibleTab(): String = ChromeTabs.captureVisibleTab().await()
-	suspend fun captureVisibleTab(windowId: Int): String = ChromeTabs.captureVisibleTab(windowId).await()
-	suspend fun captureVisibleTab(options: ImageDetails): String = ChromeTabs.captureVisibleTab(options).await()
-	suspend fun captureVisibleTab(windowId: Int, options: ImageDetails): String = ChromeTabs.captureVisibleTab(windowId, options).await()
+		override val onSelectionChanged: Event<(tabId: Int, selectInfo: OnSelectionChangedInfo) -> Unit> by ChromeTabs::onSelectionChanged
 
-	/**
-	 * Reload a tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to reload; defaults to the selected tab of the current window.
-	 */
-	suspend fun reload() = ChromeTabs.reload().await()
-	suspend fun reload(tabId: Int) = ChromeTabs.reload(tabId).await()
-	suspend fun reload(reloadProperties: ReloadProperties) = ChromeTabs.reload(reloadProperties).await()
-	suspend fun reload(tabId: Int, reloadProperties: ReloadProperties) = ChromeTabs.reload(tabId, reloadProperties).await()
+		override val onActiveChanged: Event<(tabId: Int, selectInfo: OnActiveChangedInfo) -> Unit> by ChromeTabs::onActiveChanged
 
-	/**
-	 * Duplicates a tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to duplicate.
-	 */
-	suspend fun duplicate(tabId: Int): Tab? = ChromeTabs.duplicate(tabId).await()
+		override val onHighlightChanged: Event<(selectInfo: OnHighlightChangedInfo) -> Unit> by ChromeTabs::onHighlightChanged
 
-	/**
-	 * Sends a single message to the content script(s) in the specified tab, with an optional callback to run when a response is sent back. The {@link runtime.onMessage} event is fired in each content script running in the specified tab for the current extension.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 99.
-	 */
+		override val onZoomChange: Event<(zoomChangeInfo: OnZoomChangeInfo) -> Unit> by ChromeTabs::onZoomChange
+
+		override suspend fun executeScript(tabId: Int?, details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(tabId, details).await()?.asList()
+		override suspend fun executeScript(details: InjectDetails): List<Any?>? = ChromeTabs.executeScript(details).await()?.asList()
+
+		override suspend fun get(tabId: Int): Tab = ChromeTabs.get(tabId).await()
+
+		override suspend fun getAllInWindow(windowId: Int): List<Tab> = ChromeTabs.getAllInWindow(windowId).await().asList()
+
+		override suspend fun getCurrent(): Tab? = ChromeTabs.getCurrent().await()
+
+		override suspend fun getSelected(windowId: Int): Tab = ChromeTabs.getSelected(windowId).await()
+		override suspend fun getSelected(): Tab = ChromeTabs.getSelected().await()
+
+		override suspend fun create(createProperties: CreateProperties): Tab = ChromeTabs.create(createProperties).await()
+
+		override suspend fun move(tabIds: List<Int>, moveProperties: MoveProperties): List<Tab> = ChromeTabs.move(tabIds.asJsReadonlyArrayView(), moveProperties).await().asList()
+		override suspend fun move(tabId: Int, moveProperties: MoveProperties): Tab = ChromeTabs.move(tabId, moveProperties).await()
+
+		override suspend fun update(tabId: Int, updateProperties: UpdateProperties): Tab? = ChromeTabs.update(tabId, updateProperties).await()
+		override suspend fun update(updateProperties: UpdateProperties): Tab? = ChromeTabs.update(updateProperties).await()
+
+		override suspend fun remove(tabId: Int) = ChromeTabs.remove(tabId).await()
+		override suspend fun remove(tabIds: List<Int>) = ChromeTabs.remove(tabIds.asJsReadonlyArrayView()).await()
+
+		override suspend fun captureVisibleTab(): String = ChromeTabs.captureVisibleTab().await()
+		override suspend fun captureVisibleTab(windowId: Int): String = ChromeTabs.captureVisibleTab(windowId).await()
+		override suspend fun captureVisibleTab(options: ImageDetails): String = ChromeTabs.captureVisibleTab(options).await()
+		override suspend fun captureVisibleTab(windowId: Int, options: ImageDetails): String = ChromeTabs.captureVisibleTab(windowId, options).await()
+
+		override suspend fun reload() = ChromeTabs.reload().await()
+		override suspend fun reload(tabId: Int) = ChromeTabs.reload(tabId).await()
+		override suspend fun reload(reloadProperties: ReloadProperties) = ChromeTabs.reload(reloadProperties).await()
+		override suspend fun reload(tabId: Int, reloadProperties: ReloadProperties) = ChromeTabs.reload(tabId, reloadProperties).await()
+
+		override suspend fun duplicate(tabId: Int): Tab? = ChromeTabs.duplicate(tabId).await()
+
+		override suspend fun <
+	 		MESSAGE /* default is Any? */,
+	 		RESPONSE /* default is Any? */
+	 		>
+	 		sendMessage(tabId: Int, message: MESSAGE, options: MessageSendOptions): RESPONSE = ChromeTabs.sendMessage<MESSAGE, RESPONSE>(tabId, message, options).await()
+
+		override suspend fun <
+	 		MESSAGE /* default is Any? */,
+	 		RESPONSE /* default is Any? */
+	 		>
+	 		sendMessage(tabId: Int, message: MESSAGE): RESPONSE = ChromeTabs.sendMessage<MESSAGE, RESPONSE>(tabId, message).await()
+
+		override suspend fun <
+			Request /* default is Any? */,
+			Response /* default is Any? */
+			>
+			sendRequest(tabId: Int, request: Request): Response = ChromeTabs.sendRequest<Request, Response>(tabId, request).await()
+
+		override fun connect(tabId: Int, connectInfo: ConnectInfo): Port = ChromeTabs.connect(tabId, connectInfo)
+		override fun connect(tabId: Int): Port = ChromeTabs.connect(tabId)
+
+		override suspend fun insertCSS(details: InjectDetails) = ChromeTabs.insertCSS(details).await()
+		override suspend fun insertCSS(tabId: Int, details: InjectDetails) = ChromeTabs.insertCSS(tabId, details).await()
+
+		override suspend fun highlight(highlightInfo: HighlightInfo): Window = ChromeTabs.highlight(highlightInfo).await()
+
+		override suspend fun query(queryInfo: QueryInfo): List<Tab> = ChromeTabs.query(queryInfo).await().asList()
+
+		override suspend fun detectLanguage(): String = ChromeTabs.detectLanguage().await()
+		override suspend fun detectLanguage(tabId: Int): String = ChromeTabs.detectLanguage(tabId).await()
+
+		override suspend fun setZoom(zoomFactor: Double) = ChromeTabs.setZoom(zoomFactor).await()
+		override suspend fun setZoom(tabId: Int, zoomFactor: Double) = ChromeTabs.setZoom(tabId, zoomFactor).await()
+
+		override suspend fun getZoom(): Double = ChromeTabs.getZoom().await()
+		override suspend fun getZoom(tabId: Int): Double = ChromeTabs.getZoom(tabId).await()
+
+		override suspend fun setZoomSettings(zoomSettings: ZoomSettings) = ChromeTabs.setZoomSettings(zoomSettings).await()
+		override suspend fun setZoomSettings(tabId: Int?, zoomSettings: ZoomSettings) = ChromeTabs.setZoomSettings(zoomSettings).await()
+
+		override suspend fun getZoomSettings(): ZoomSettings = ChromeTabs.getZoomSettings().await()
+		override suspend fun getZoomSettings(tabId: Int): ZoomSettings = ChromeTabs.getZoomSettings(tabId).await()
+
+		override suspend fun discard(): Tab? = ChromeTabs.discard().await()
+		override suspend fun discard(tabId: Int): Tab? = ChromeTabs.discard(tabId).await()
+
+		override suspend fun goForward() = ChromeTabs.goForward().await()
+		override suspend fun goForward(tabId: Int) = ChromeTabs.goForward(tabId).await()
+
+		override suspend fun goBack() = ChromeTabs.goBack().await()
+		override suspend fun goBack(tabId: Int) = ChromeTabs.goBack(tabId).await()
+
+		override suspend fun group(options: GroupOptions): Int = ChromeTabs.group(options).await()
+
+		override suspend fun ungroup(tabIds: Int) = ChromeTabs.ungroup(tabIds).await()
+		override suspend fun ungroup(tabIds: IntArray) = ChromeTabs.ungroup(tabIds).await()
+
+	}
+
+	val MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND: Any?
+
+	val TAB_ID_NONE: Any?
+
+	val TAB_INDEX_NONE: Any?
+
+	val onHighlighted: Event<(highlightInfo: OnHighlightedInfo) -> Unit>
+
+	val onRemoved: Event<(tabId: Int, removeInfo: OnRemovedInfo) -> Unit>
+
+	val onUpdated: Event<(tabId: Int, changeInfo: OnUpdatedInfo, tab: Tab) -> Unit>
+
+	val onAttached: Event<(tabId: Int, attachInfo: OnAttachedInfo) -> Unit>
+
+	val onMoved: Event<(tabId: Int, moveInfo: OnMovedInfo) -> Unit>
+
+	val onDetached: Event<(tabId: Int, detachInfo: OnDetachedInfo) -> Unit>
+
+	val onCreated: Event<(tab: Tab) -> Unit>
+
+	val onActivated: Event<(activeInfo: OnActivatedInfo) -> Unit>
+
+	val onReplaced: Event<(addedTabId: Int, removedTabId: Int) -> Unit>
+
+	val onSelectionChanged: Event<(tabId: Int, selectInfo: OnSelectionChangedInfo) -> Unit>
+
+	val onActiveChanged: Event<(tabId: Int, selectInfo: OnActiveChangedInfo) -> Unit>
+
+	val onHighlightChanged: Event<(selectInfo: OnHighlightChangedInfo) -> Unit>
+
+	val onZoomChange: Event<(zoomChangeInfo: OnZoomChangeInfo) -> Unit>
+
+	suspend fun executeScript(tabId: Int?, details: InjectDetails): List<Any?>?
+	suspend fun executeScript(details: InjectDetails): List<Any?>?
+
+	suspend fun get(tabId: Int): Tab
+
+	suspend fun getAllInWindow(windowId: Int): List<Tab>
+
+	suspend fun getCurrent(): Tab?
+
+	suspend fun getSelected(windowId: Int): Tab
+	suspend fun getSelected(): Tab
+
+	suspend fun create(createProperties: CreateProperties): Tab
+
+	suspend fun move(tabIds: List<Int>, moveProperties: MoveProperties): List<Tab>
+	suspend fun move(tabId: Int, moveProperties: MoveProperties): Tab
+
+	suspend fun update(tabId: Int, updateProperties: UpdateProperties): Tab?
+	suspend fun update(updateProperties: UpdateProperties): Tab?
+
+	suspend fun remove(tabId: Int)
+	suspend fun remove(tabIds: List<Int>)
+
+	suspend fun captureVisibleTab(): String
+	suspend fun captureVisibleTab(windowId: Int): String
+	suspend fun captureVisibleTab(options: ImageDetails): String
+	suspend fun captureVisibleTab(windowId: Int, options: ImageDetails): String
+
+	suspend fun reload()
+	suspend fun reload(tabId: Int)
+	suspend fun reload(reloadProperties: ReloadProperties)
+	suspend fun reload(tabId: Int, reloadProperties: ReloadProperties)
+
+	suspend fun duplicate(tabId: Int): Tab?
+
 	suspend fun <
 		MESSAGE /* default is Any? */,
 		RESPONSE /* default is Any? */
 		>
-		sendMessage(tabId: Int, message: MESSAGE, options: MessageSendOptions): RESPONSE = ChromeTabs.sendMessage<MESSAGE, RESPONSE>(tabId, message, options).await()
+		sendMessage(tabId: Int, message: MESSAGE, options: MessageSendOptions): RESPONSE
 
 	suspend fun <
 		MESSAGE /* default is Any? */,
 		RESPONSE /* default is Any? */
 		>
-		sendMessage(tabId: Int, message: MESSAGE): RESPONSE = ChromeTabs.sendMessage<MESSAGE, RESPONSE>(tabId, message).await()
+		sendMessage(tabId: Int, message: MESSAGE): RESPONSE
 
-	/**
-	 * Sends a single request to the content script(s) in the specified tab, with an optional callback to run when a response is sent back. The {@link extension.onRequest} event is fired in each content script running in the specified tab for the current extension.
-	 *
-	 * MV2 only
-	 * @deprecated Please use {@link runtime.sendMessage}.
-	 */
 	suspend fun <
 		Request /* default is Any? */,
 		Response /* default is Any? */
 		>
-		sendRequest(tabId: Int, request: Request): Response = ChromeTabs.sendRequest<Request, Response>(tabId, request).await()
+		sendRequest(tabId: Int, request: Request): Response
 
-	/**
-	 * Connects to the content script(s) in the specified tab. The {@link runtime.onConnect} event is fired in each content script running in the specified tab for the current extension.
-	 * @returns A port that can be used to communicate with the content scripts running in the specified tab. The port's {@link runtime.Port} event is fired if the tab closes or does not exist.
-	 */
-	fun connect(tabId: Int, connectInfo: ConnectInfo): Port = ChromeTabs.connect(tabId, connectInfo)
-	fun connect(tabId: Int): Port = ChromeTabs.connect(tabId)
+	fun connect(tabId: Int, connectInfo: ConnectInfo): Port
+	fun connect(tabId: Int): Port
 
-	/**
-	 * Injects CSS into a page. Styles inserted with this method can be removed with {@link scripting.removeCSS}`. For details, see the programmatic injection section of the content scripts doc.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 *
-	 * MV2 only
-	 * @param tabId The ID of the tab in which to insert the CSS; defaults to the active tab of the current window.
-	 * @param details Details of the CSS text to insert. Either the code or the file property must be set, but both may not be set at the same time.
-	 * @deprecated since Chrome 99. Replaced by {@link scripting.insertCSS} in Manifest V3.
-	 */
-	suspend fun insertCSS(details: InjectDetails) = ChromeTabs.insertCSS(details).await()
-	suspend fun insertCSS(tabId: Int, details: InjectDetails) = ChromeTabs.insertCSS(tabId, details).await()
+	suspend fun insertCSS(details: InjectDetails)
+	suspend fun insertCSS(tabId: Int, details: InjectDetails)
 
-	/**
-	 * Highlights the given tabs and focuses on the first of group. Will appear to do nothing if the specified tab is currently active.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 */
-	suspend fun highlight(highlightInfo: HighlightInfo): Window = ChromeTabs.highlight(highlightInfo).await()
+	suspend fun highlight(highlightInfo: HighlightInfo): Window
 
-	/** Gets all tabs that have the specified properties, or all tabs if no properties are specified. */
-	suspend fun query(queryInfo: QueryInfo): List<Tab> = ChromeTabs.query(queryInfo).await().asList()
+	suspend fun query(queryInfo: QueryInfo): List<Tab>
 
-	/**
-	 * Detects the primary language of the content in a tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to get the current zoom factor from; defaults to the active tab of the current window.
-	 */
-	suspend fun detectLanguage(): String = ChromeTabs.detectLanguage().await()
-	suspend fun detectLanguage(tabId: Int): String = ChromeTabs.detectLanguage(tabId).await()
+	suspend fun detectLanguage(): String
+	suspend fun detectLanguage(tabId: Int): String
 
-	/**
-	 * Zooms a specified tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to zoom; defaults to the active tab of the current window.
-	 * @param zoomFactor The new zoom factor. A value of `0` sets the tab to its current default zoom factor. Values greater than 0 specify a (possibly non-default) zoom factor for the tab.
-	 */
-	suspend fun setZoom(zoomFactor: Double) = ChromeTabs.setZoom(zoomFactor).await()
-	suspend fun setZoom(tabId: Int, zoomFactor: Double) = ChromeTabs.setZoom(tabId, zoomFactor).await()
+	suspend fun setZoom(zoomFactor: Double)
+	suspend fun setZoom(tabId: Int, zoomFactor: Double)
 
-	/**
-	 * Gets the current zoom factor of a specified tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to get the current zoom factor from; defaults to the active tab of the current window.
-	 */
-	suspend fun getZoom(): Double = ChromeTabs.getZoom().await()
-	suspend fun getZoom(tabId: Int): Double = ChromeTabs.getZoom(tabId).await()
+	suspend fun getZoom(): Double
+	suspend fun getZoom(tabId: Int): Double
 
-	/**
-	 * Sets the zoom settings for a specified tab, which define how zoom changes are handled. These settings are reset to defaults upon navigating the tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to change the zoom settings for; defaults to the active tab of the current window.
-	 * @param zoomSettings Defines how zoom changes are handled and at what scope.
-	 */
-	suspend fun setZoomSettings(zoomSettings: ZoomSettings) = ChromeTabs.setZoomSettings(zoomSettings).await()
-	suspend fun setZoomSettings(tabId: Int?, zoomSettings: ZoomSettings) = ChromeTabs.setZoomSettings(zoomSettings).await()
+	suspend fun setZoomSettings(zoomSettings: ZoomSettings)
+	suspend fun setZoomSettings(tabId: Int?, zoomSettings: ZoomSettings)
 
-	/**
-	 * Gets the current zoom settings of a specified tab.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to get the current zoom settings from; defaults to the active tab of the current window.
-	 */
-	suspend fun getZoomSettings(): ZoomSettings = ChromeTabs.getZoomSettings().await()
-	suspend fun getZoomSettings(tabId: Int): ZoomSettings = ChromeTabs.getZoomSettings(tabId).await()
+	suspend fun getZoomSettings(): ZoomSettings
+	suspend fun getZoomSettings(tabId: Int): ZoomSettings
 
-	/**
-	 * Discards a tab from memory. Discarded tabs are still visible on the tab strip and are reloaded when activated.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to be discarded. If specified, the tab is discarded unless it is active or already discarded. If omitted, the browser discards the least important tab. This can fail if no discardable tabs exist..
-	 * @since Chrome 54
-	 */
-	suspend fun discard(): Tab? = ChromeTabs.discard().await()
-	suspend fun discard(tabId: Int): Tab? = ChromeTabs.discard(tabId).await()
+	suspend fun discard(): Tab?
+	suspend fun discard(tabId: Int): Tab?
 
-	/**
-	 * Go forward to the next page, if one is available.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to navigate forward; defaults to the selected tab of the current window.
-	 * @since Chrome 72
-	 */
-	suspend fun goForward() = ChromeTabs.goForward().await()
-	suspend fun goForward(tabId: Int) = ChromeTabs.goForward(tabId).await()
+	suspend fun goForward()
+	suspend fun goForward(tabId: Int)
 
-	/**
-	 * Go back to the previous page, if one is available.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabId The ID of the tab to navigate back; defaults to the selected tab of the current window.
-	 * @since Chrome 72
-	 */
-	suspend fun goBack() = ChromeTabs.goBack().await()
-	suspend fun goBack(tabId: Int) = ChromeTabs.goBack(tabId).await()
+	suspend fun goBack()
+	suspend fun goBack(tabId: Int)
 
-	/**
-	 * Adds one or more tabs to a specified group, or if no group is specified, adds the given tabs to a newly created group.
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @since Chrome 88
-	 */
-	suspend fun group(options: GroupOptions): Int = ChromeTabs.group(options).await()
+	suspend fun group(options: GroupOptions): Int
 
-	/**
-	 * Removes one or more tabs from their respective groups. If any groups become empty, they are deleted
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabIds The tab ID or list of tab IDs to remove from their respective groups.
-	 * @since Chrome 88
-	 */
-	suspend fun ungroup(tabIds: Int) = ChromeTabs.ungroup(tabIds).await()
-
-	/**
-	 * Removes one or more tabs from their respective groups. If any groups become empty, they are deleted
-	 *
-	 * Can return its result via Promise in Manifest V3 or later since Chrome 88.
-	 * @param tabIds The tab ID or list of tab IDs to remove from their respective groups.
-	 * @since Chrome 88
-	 */
-	suspend fun ungroup(tabIds: IntArray) = ChromeTabs.ungroup(tabIds).await()
-
-	/** Fired when the highlighted or selected tabs in a window changes */
-	val onHighlighted: Event<(highlightInfo: OnHighlightedInfo) -> Unit> by ChromeTabs::onHighlighted
-
-	/** Fired when a tab is closed. */
-	val onRemoved: Event<(tabId: Int, removeInfo: OnRemovedInfo) -> Unit> by ChromeTabs::onRemoved
-
-	/** Fired when a tab is updated. */
-	val onUpdated: Event<(tabId: Int, changeInfo: OnUpdatedInfo, tab: Tab) -> Unit> by ChromeTabs::onUpdated
-
-	/** Fired when a tab is attached to a window, for example because it was moved between windows. */
-	val onAttached: Event<(tabId: Int, attachInfo: OnAttachedInfo) -> Unit> by ChromeTabs::onAttached
-
-	/** Fired when a tab is moved within a window. Only one move event is fired, representing the tab the user directly moved. Move events are not fired for the other tabs that must move in response to the manually-moved tab. This event is not fired when a tab is moved between windows; for details, see {@link tabs.onDetached}. */
-	val onMoved: Event<(tabId: Int, moveInfo: OnMovedInfo) -> Unit> by ChromeTabs::onMoved
-
-	/** Fired when a tab is detached from a window; for example, because it was moved between windows. */
-	val onDetached: Event<(tabId: Int, detachInfo: OnDetachedInfo) -> Unit> by ChromeTabs::onDetached
-
-	/** Fired when a tab is created. Note that the tab's URL and tab group membership may not be set at the time this event is fired, but you can listen to onUpdated events so as to be notified when a URL is set or the tab is added to a tab group. */
-	val onCreated: Event<(tab: Tab) -> Unit> by ChromeTabs::onCreated
-
-	/** Fires when the active tab in a window changes. Note that the tab's URL may not be set at the time this event fired, but you can listen to onUpdated events so as to be notified when a URL is set */
-	val onActivated: Event<(activeInfo: OnActivatedInfo) -> Unit> by ChromeTabs::onActivated
-
-	/** Fired when a tab is replaced with another tab due to prerendering or instant */
-	val onReplaced: Event<(addedTabId: Int, removedTabId: Int) -> Unit> by ChromeTabs::onReplaced
-
-	/**
-	 * Fires when the selected tab in a window changes.
-	 *
-	 * MV2 only
-	 * @deprecated Please use {@link tabs.onActivated}.
-	 */
-	val onSelectionChanged: Event<(tabId: Int, selectInfo: OnSelectionChangedInfo) -> Unit> by ChromeTabs::onSelectionChanged
-
-	/**
-	 * Fires when the selected tab in a window changes. Note that the tab's URL may not be set at the time this event fired, but you can listen to {@link tabs.onUpdated} events so as to be notified when a URL is set.
-	 *
-	 * MV2 only
-	 * @deprecated Please use {@link tabs.onActivated}.
-	 */
-	val onActiveChanged: Event<(tabId: Int, selectInfo: OnActiveChangedInfo) -> Unit> by ChromeTabs::onActiveChanged
-
-	/**
-	 * Fired when the highlighted or selected tabs in a window changes.
-	 *
-	 * MV2 only
-	 * @deprecated Please use {@link tabs.onHighlighted}.
-	 */
-	val onHighlightChanged: Event<(selectInfo: OnHighlightChangedInfo) -> Unit> by ChromeTabs::onHighlightChanged
-
-	/** Fired when a tab is zoomed */
-	val onZoomChange: Event<(zoomChangeInfo: OnZoomChangeInfo) -> Unit> by ChromeTabs::onZoomChange
+	suspend fun ungroup(tabIds: Int)
+	suspend fun ungroup(tabIds: IntArray)
 }

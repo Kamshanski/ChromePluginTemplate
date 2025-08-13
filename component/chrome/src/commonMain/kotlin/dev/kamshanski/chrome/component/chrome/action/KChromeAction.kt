@@ -16,146 +16,92 @@ import chrome.tabs.Tab
 import kotlinx.coroutines.await
 
 /**
- * Use the `chrome.action` API to control the extension's icon in the Google Chrome toolbar.
- * The action icons are displayed in the browser toolbar next to the omnibox. After installation, these appear in the extensions menu (the puzzle piece icon). Users can pin your extension icon to the toolbar.
- *
- * Manifest: "action"
- * @since Chrome 88, MV3
+ * @see ChromeAction
  */
 @Suppress("unused")
-object KChromeAction {
+interface KChromeAction {
 
-	/**
-	 * Disables the action for a tab.
-	 * @param tabId The ID of the tab for which you want to modify the action.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun disable(tabId: Int): Unit = ChromeAction.disable(tabId).await()
-	suspend fun disable(): Unit = ChromeAction.disable().await()
+	companion object : KChromeAction {
 
-	/**
-	 * Enables the action for a tab. By default, actions are enabled.
-	 * @param tabId The ID of the tab for which you want to modify the action.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun enable(tabId: Int): Unit = ChromeAction.enable(tabId).await()
-	suspend fun enable(): Unit = ChromeAction.enable().await()
+		override val onClicked: Event<(tab: Tab) -> Unit> by ChromeAction::onClicked
 
-	/**
-	 * Gets the background color of the action.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun getBadgeBackgroundColor(details: TabDetails): ColorArray = ChromeAction.getBadgeBackgroundColor(details).await()
+		override val onUserSettingsChanged: Event<(change: UserSettingsChange) -> Unit> by ChromeAction::onUserSettingsChanged
 
-	/**
-	 * Gets the badge text of the action. If no tab is specified, the non-tab-specific badge text is returned. If {@link declarativeNetRequest.ExtensionActionOptions.displayActionCountAsBadgeText displayActionCountAsBadgeText} is enabled, a placeholder text will be returned unless the {@link runtime.ManifestPermissions declarativeNetRequestFeedback} permission is present or tab-specific badge text was provided.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun getBadgeText(details: TabDetails): String = ChromeAction.getBadgeText(details).await()
+		override suspend fun disable(tabId: Int): Unit = ChromeAction.disable(tabId).await()
+		override suspend fun disable(): Unit = ChromeAction.disable().await()
 
-	/**
-	 * Gets the text color of the action.
-	 *
-	 * Can return its result via Promise.
-	 * @since Chrome 110
-	 */
-	suspend fun getBadgeTextColor(details: TabDetails): ColorArray = ChromeAction.getBadgeTextColor(details).await()
+		override suspend fun enable(tabId: Int): Unit = ChromeAction.enable(tabId).await()
+		override suspend fun enable(): Unit = ChromeAction.enable().await()
 
-	/**
-	 * Gets the html document set as the popup for this action.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun getPopup(details: TabDetails): String = ChromeAction.getPopup(details).await()
+		override suspend fun getBadgeBackgroundColor(details: TabDetails): ColorArray = ChromeAction.getBadgeBackgroundColor(details).await()
 
-	/**
-	 * Gets the title of the action.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun getTitle(details: TabDetails): String = ChromeAction.getTitle(details).await()
+		override suspend fun getBadgeText(details: TabDetails): String = ChromeAction.getBadgeText(details).await()
 
-	/**
-	 * Returns the user-specified settings relating to an extension's action.
-	 *
-	 * Can return its result via Promise.
-	 * @since Chrome 91
-	 */
-	suspend fun getUserSettings(): UserSettings = ChromeAction.getUserSettings().await()
+		override suspend fun getBadgeTextColor(details: TabDetails): ColorArray = ChromeAction.getBadgeTextColor(details).await()
 
-	/**
-	 * Indicates whether the extension action is enabled for a tab (or globally if no `tabId` is provided). Actions enabled using only {@link declarativeContent} always return false.
-	 *
-	 * Can return its result via Promise.
-	 * @since Chrome 110
-	 */
-	suspend fun isEnabled(tabId: Int): Boolean = ChromeAction.isEnabled(tabId).await()
-	suspend fun isEnabled(): Boolean = ChromeAction.isEnabled().await()
+		override suspend fun getPopup(details: TabDetails): String = ChromeAction.getPopup(details).await()
 
-	/**
-	 * Opens the extension's popup. Between Chrome 118 and Chrome 126, this is only available to policy installed extensions.
-	 *
-	 * @param options Specifies options for opening the popup.
-	 *
-	 * Can return its result via Promise.
-	 * @since Chrome 127
-	 */
-	suspend fun openPopup(options: OpenPopupOptions)  = ChromeAction.openPopup(options).await()
-	suspend fun openPopup()  = ChromeAction.openPopup().await()
+		override suspend fun getTitle(details: TabDetails): String = ChromeAction.getTitle(details).await()
 
-	/**
-	 * Sets the background color for the badge.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun setBadgeBackgroundColor(details: BadgeColorDetails): Unit = ChromeAction.setBadgeBackgroundColor(details).await()
+		override suspend fun getUserSettings(): UserSettings = ChromeAction.getUserSettings().await()
 
-	/**
-	 * Sets the badge text for the action. The badge is displayed on top of the icon.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun setBadgeText(details: BadgeTextDetails): Unit = ChromeAction.setBadgeText(details).await()
+		override suspend fun isEnabled(tabId: Int): Boolean = ChromeAction.isEnabled(tabId).await()
+		override suspend fun isEnabled(): Boolean = ChromeAction.isEnabled().await()
 
-	/**
-	 * Sets the text color for the badge.
-	 *
-	 * Can return its result via Promise.
-	 * @since Chrome 110
-	 */
-	suspend fun setBadgeTextColor(details: BadgeColorDetails): Unit = ChromeAction.setBadgeTextColor(details).await()
+		override suspend fun openPopup(options: OpenPopupOptions) = ChromeAction.openPopup(options).await()
+		override suspend fun openPopup() = ChromeAction.openPopup().await()
 
-	/**
-	 * Sets the icon for the action. The icon can be specified either as the path to an image file or as the pixel data from a canvas element, or as dictionary of either one of those. Either the path or the imageData property must be specified.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun setIcon(details: TabIconDetails): Unit = ChromeAction.setIcon(details).await()
+		override suspend fun setBadgeBackgroundColor(details: BadgeColorDetails): Unit = ChromeAction.setBadgeBackgroundColor(details).await()
 
-	/**
-	 * Sets the html document to be opened as a popup when the user clicks on the action's icon.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun setPopup(details: PopupDetails): Unit = ChromeAction.setPopup(details).await()
+		override suspend fun setBadgeText(details: BadgeTextDetails): Unit = ChromeAction.setBadgeText(details).await()
 
-	/**
-	 * Sets the title of the action. This shows up in the tooltip.
-	 *
-	 * Can return its result via Promise.
-	 */
-	suspend fun setTitle(details: TitleDetails): Unit = ChromeAction.setTitle(details).await()
+		override suspend fun setBadgeTextColor(details: BadgeColorDetails): Unit = ChromeAction.setBadgeTextColor(details).await()
 
-	/** Fired when an action icon is clicked. This event will not fire if the action has a popup. */
-	val onClicked: Event<(tab: Tab) -> Unit> by ChromeAction::onClicked
+		override suspend fun setIcon(details: TabIconDetails): Unit = ChromeAction.setIcon(details).await()
 
-	/**
-	 * Fired when user-specified settings relating to an extension's action change.
-	 * @since Chrome 130
-	 */
-	val onUserSettingsChanged: Event<(change: UserSettingsChange) -> Unit> by ChromeAction::onUserSettingsChanged
+		override suspend fun setPopup(details: PopupDetails): Unit = ChromeAction.setPopup(details).await()
+
+		override suspend fun setTitle(details: TitleDetails): Unit = ChromeAction.setTitle(details).await()
+	}
+
+	val onClicked: Event<(tab: Tab) -> Unit>
+
+	val onUserSettingsChanged: Event<(change: UserSettingsChange) -> Unit>
+
+	suspend fun disable(tabId: Int)
+
+	suspend fun disable()
+
+	suspend fun enable(tabId: Int)
+	suspend fun enable()
+
+	suspend fun getBadgeBackgroundColor(details: TabDetails): ColorArray
+
+	suspend fun getBadgeText(details: TabDetails): String
+
+	suspend fun getBadgeTextColor(details: TabDetails): ColorArray
+
+	suspend fun getPopup(details: TabDetails): String
+
+	suspend fun getTitle(details: TabDetails): String
+
+	suspend fun getUserSettings(): UserSettings
+
+	suspend fun isEnabled(tabId: Int): Boolean
+	suspend fun isEnabled(): Boolean
+
+	suspend fun openPopup(options: OpenPopupOptions)
+	suspend fun openPopup()
+
+	suspend fun setBadgeBackgroundColor(details: BadgeColorDetails)
+
+	suspend fun setBadgeText(details: BadgeTextDetails)
+
+	suspend fun setBadgeTextColor(details: BadgeColorDetails)
+
+	suspend fun setIcon(details: TabIconDetails)
+
+	suspend fun setPopup(details: PopupDetails)
+
+	suspend fun setTitle(details: TitleDetails)
 }

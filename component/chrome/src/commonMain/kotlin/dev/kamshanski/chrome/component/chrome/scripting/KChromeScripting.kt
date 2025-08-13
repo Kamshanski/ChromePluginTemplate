@@ -13,64 +13,44 @@ import kotlin.js.collections.JsReadonlyArray
  * @see chrome.scripting.ChromeScripting
  */
 @Suppress("unused")
-object KChromeScripting {
+interface KChromeScripting {
+	companion object : KChromeScripting {
 
-	/**
-	 * Injects a script into a target context. By default, the script will be run at `document_idle`, or immediately if the page has already loaded.
-	 * If the `injectImmediately` property is set, the script will inject without waiting, even if the page has not finished loading.
-	 * If the script evaluates to a promise, the browser will wait for the promise to settle and return the resulting value.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 * @param injection The details of the script which to inject.
-	 */
+		override suspend fun <SERIALIZABLE_ARG, RESULT> executeScript(
+			injection: ScriptInjection<SERIALIZABLE_ARG, RESULT>
+		): Array<InjectionResult<RESULT>> = ChromeScripting.executeScript(injection).await()
+
+		override suspend fun insertCSS(injection: CSSInjection) = ChromeScripting.insertCSS(injection).await()
+
+		override suspend fun removeCSS(injection: CSSInjection) = ChromeScripting.removeCSS(injection).await()
+
+		override suspend fun registerContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.registerContentScripts(scripts.asJsReadonlyArrayView()).await()
+
+		override suspend fun unregisterContentScripts() = ChromeScripting.unregisterContentScripts().await()
+		override suspend fun unregisterContentScripts(filter: ContentScriptFilter) = ChromeScripting.unregisterContentScripts(filter).await()
+
+		override suspend fun getRegisteredContentScripts(): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts().await()
+		override suspend fun getRegisteredContentScripts(filter: ContentScriptFilter): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts(filter).await()
+
+		override suspend fun updateContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.updateContentScripts(scripts.asJsReadonlyArrayView()).await()
+
+	}
+
 	suspend fun <SERIALIZABLE_ARG, RESULT> executeScript(
 		injection: ScriptInjection<SERIALIZABLE_ARG, RESULT>
-	): Array<InjectionResult<RESULT>> = ChromeScripting.executeScript(injection).await()
+	): Array<InjectionResult<RESULT>>
 
-	/**
-	 * Inserts a CSS stylesheet into a target context. If multiple frames are specified, unsuccessful injections are ignored.
-	 *
-	 * Can return its result via Promise since Chrome 90.
-	 * @param injection The details of the styles to insert.
-	 */
-	suspend fun insertCSS(injection: CSSInjection) = ChromeScripting.insertCSS(injection).await()
+	suspend fun insertCSS(injection: CSSInjection)
 
-	/**
-	 * Removes a CSS stylesheet that was previously inserted by this extension from a target context.
-	 * @param injection The details of the styles to remove. Note that the `css`, `files`, and `origin` properties must exactly match the stylesheet inserted through {@link insertCSS}.
-	 * Attempting to remove a non-existent stylesheet is a no-op.
-	 * @since Chrome 90
-	 */
-	suspend fun removeCSS(injection: CSSInjection) = ChromeScripting.removeCSS(injection).await()
+	suspend fun removeCSS(injection: CSSInjection)
 
-	/**
-	 * Registers one or more content scripts for this extension
-	 * @since Chrome 96
-	 * @param scripts Contains a list of scripts to be registered. If there are errors during script parsing/file validation, or if the IDs specified already exist, then no scripts are registered.
-	 */
-	suspend fun registerContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.registerContentScripts(scripts.asJsReadonlyArrayView()).await()
+	suspend fun registerContentScripts(scripts: List<RegisteredContentScript>)
 
-	/**
-	 * Unregisters content scripts for this extension.
-	 * @since Chrome 96
-	 * @param filter If specified, only unregisters dynamic content scripts which match the filter. Otherwise, all of the extension's dynamic content scripts are unregistered.
-	 */
-	suspend fun unregisterContentScripts() = ChromeScripting.unregisterContentScripts().await()
-	suspend fun unregisterContentScripts(filter: ContentScriptFilter) = ChromeScripting.unregisterContentScripts(filter).await()
+	suspend fun unregisterContentScripts()
+	suspend fun unregisterContentScripts(filter: ContentScriptFilter)
 
-	/**
-	 * Returns all dynamically registered content scripts for this extension that match the given filter.
-	 * @since Chrome 96
-	 * @param filter An object to filter the extension's dynamically registered scripts.
-	 */
-	suspend fun getRegisteredContentScripts(): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts().await()
-	suspend fun getRegisteredContentScripts(filter: ContentScriptFilter): JsReadonlyArray<RegisteredContentScript> = ChromeScripting.getRegisteredContentScripts(filter).await()
+	suspend fun getRegisteredContentScripts(): JsReadonlyArray<RegisteredContentScript>
+	suspend fun getRegisteredContentScripts(filter: ContentScriptFilter): JsReadonlyArray<RegisteredContentScript>
 
-	/**
-	 * Updates one or more content scripts for this extension.
-	 * @since Chrome 96
-	 * @param scripts Contains a list of scripts to be updated. A property is only updated for the existing script if it is specified in this object.
-	 * If there are errors during script parsing/file validation, or if the IDs specified do not correspond to a fully registered script, then no scripts are updated.
-	 */
-	suspend fun updateContentScripts(scripts: List<RegisteredContentScript>) = ChromeScripting.updateContentScripts(scripts.asJsReadonlyArrayView()).await()
+	suspend fun updateContentScripts(scripts: List<RegisteredContentScript>)
 }
