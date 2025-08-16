@@ -49,7 +49,7 @@ kotlin {
 	}
 }
 
-chromePlugin {
+chromePlugin()
 
 }
 
