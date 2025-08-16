@@ -1,7 +1,8 @@
 import optin.defaultOptInOption
-import org.gradle.api.file.DuplicatesStrategy.FAIL
 import org.jetbrains.kotlin.gradle.dsl.JsSourceMapEmbedMode
 import org.jetbrains.kotlin.gradle.dsl.JsSourceMapNamesPolicy
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
@@ -11,11 +12,23 @@ plugins {
 
 kotlin {
 	js {
+		generateTypeScriptDefinitions()
+		useEsModules()
 		binaries.executable()
 		browser {
+			webpackTask {
+				mode = KotlinWebpackConfig.Mode.DEVELOPMENT
+			}
 			commonWebpackConfig {
 				cssSupport {
 					enabled.set(true)
+				}
+				devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+					static = (static ?: mutableListOf()).apply {
+						// Serve sources to debug inside browser
+						add(project.rootDir.path)
+						add(project.projectDir.path)
+					}
 				}
 			}
 			testTask {
@@ -31,6 +44,7 @@ kotlin {
 		jsMain.dependencies {
 			implementation(project(":component-log"))
 			implementation(project(":component-chrome"))
+			implementation(project(":component-html-customelement"))
 
 			implementation(project(":util-common"))
 			implementation(project(":util-dom"))
@@ -38,6 +52,7 @@ kotlin {
 			implementation(libs.kotlinxSerialization.core)
 			implementation(libs.kotlinxSerialization.json)
 			implementation(libs.kotlinxCoroutines.core)
+			implementation(libs.kotlinWrappers.kotlinBrowser)
 		}
 		jsTest.dependencies {
 			implementation(libs.kotlin.test)
@@ -51,6 +66,10 @@ kotlin {
 
 chromePlugin()
 
+tasks.withType<KotlinJsCompile>().configureEach {
+	compilerOptions {
+		useEsClasses = true
+	}
 }
 
 tasks.withType<Kotlin2JsCompile>().configureEach {
