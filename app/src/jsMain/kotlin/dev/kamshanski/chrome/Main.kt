@@ -1,12 +1,12 @@
 package dev.kamshanski.chrome
 
 import dev.kamshanski.chrome.component.chrome.bookmarks.KChromeBookmarks
-import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
 import dev.kamshanski.chrome.component.chrome.bookmarks.childList
+import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
 import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.test.ConstantsTest
-import dev.kamshanski.chrome.utll.dom.firstElementById
+import dev.kamshanski.chrome.utll.w3c.dom.firstElementById
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope

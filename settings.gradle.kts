@@ -27,5 +27,6 @@ includeDashedProject(":component-log")
 includeDashedProject(":component-html-customelement")
 includeDashedProject(":component-chrome")
 
-includeDashedProject(":util-dom")
+includeDashedProject(":util-kotlinwrappers-dom")
+includeDashedProject(":util-w3c-dom")
 includeDashedProject(":util-common")

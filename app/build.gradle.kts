@@ -47,7 +47,7 @@ kotlin {
 			implementation(project(":component-html-customelement"))
 
 			implementation(project(":util-common"))
-			implementation(project(":util-dom"))
+			implementation(project(":util-w3c-dom"))
 
 			implementation(libs.kotlinxSerialization.core)
 			implementation(libs.kotlinxSerialization.json)
