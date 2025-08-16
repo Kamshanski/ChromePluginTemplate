@@ -30,7 +30,8 @@ val custom_elements_availability_button: HTMLParagraphElement get() = document.f
 
 fun registerCustomElements() {
 	MyHtmlElement.register()
-	MyHtmlInflatedElement.register()
+	MyLocalHtmlElement.register()
+	MyCachedLocalHtmlElement.register()
 }
 
 fun main() {
@@ -82,15 +83,18 @@ fun main() {
 
 		custom_elements_availability_button.onclick = EventHandler {
 			val e1 = document.getElementsByTagName(MyHtmlElement.tag).firstOrNull()
-			val e2 = document.getElementsByTagName(MyHtmlInflatedElement.tag).firstOrNull()
-			val elementsAvailable = e1 != null || e2 != null
+			val e2 = document.getElementsByTagName(MyLocalHtmlElement.tag).firstOrNull()
+			val e3 = document.getElementsByTagName(MyCachedLocalHtmlElement.tag).firstOrNull()
+			val elementsAvailable = e1 != null || e2 != null || e3 != null
 
 			if (elementsAvailable) {
 				e1?.let { container.removeChild(it) }
 				e2?.let { container.removeChild(it) }
+				e3?.let { container.removeChild(it) }
 			} else {
 				container.appendChild(MyHtmlElement())
-				container.appendChild(MyHtmlInflatedElement())
+				container.appendChild(MyLocalHtmlElement())
+				container.appendChild(MyCachedLocalHtmlElement())
 			}
 		}
 	}
