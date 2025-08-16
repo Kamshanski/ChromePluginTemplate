@@ -6,17 +6,16 @@ import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNu
 import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.test.ConstantsTest
-import dev.kamshanski.chrome.utll.w3c.dom.firstElementById
-import kotlinx.browser.document
-import kotlinx.browser.window
+import dev.kamshanski.chrome.utll.kotlinwrappers.dom.firstElementById
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.w3c.dom.GlobalEventHandlers
-import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLHeadingElement
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLParagraphElement
-import org.w3c.dom.events.Event
+import web.dom.document
+import web.events.EventHandler
+import web.html.HTMLButtonElement
+import web.html.HTMLHeadingElement
+import web.html.HTMLInputElement
+import web.html.HTMLParagraphElement
+import web.window.window
 
 val header: HTMLHeadingElement get() = document.firstElementById("header")
 val okButton: HTMLButtonElement get() = document.firstElementById("ok_button")
@@ -30,17 +29,18 @@ fun main() {
 	i { "Extension script loaded" }
 
 	val scope = MainScope()
-	window.onload = {
+
+	window.onload = EventHandler {
 		i { "Extension default popup opened" }
 
 		val originalHeaderText = header.textContent ?: ""
 
-		okButton.setOnClickListener {
+		okButton.onclick = EventHandler {
 			val inputValue = numberInput.value.toIntOrNull()
 			header.textContent = originalHeaderText + " " + inputValue
 		}
 
-		bookmarksCountButton.setOnClickListener {
+		bookmarksCountButton.onclick = EventHandler {
 			scope.launch {
 				with(KChromeBookmarks) {
 					val root = getTree().first()
@@ -54,7 +54,7 @@ fun main() {
 				}
 			}
 		}
-		enumTestButton.setOnClickListener {
+		enumTestButton.onclick = EventHandler {
 			val result = ConstantsTest().test()
 			val message = if (result.isEmpty()) {
 				"Всё круто"
@@ -71,10 +71,3 @@ fun main() {
 		}
 	}
 }
-
-fun GlobalEventHandlers.setOnClickListener(listener: (event: Event) -> Unit) {
-	this.onclick = {
-		listener(it)
-	}
-}
-
