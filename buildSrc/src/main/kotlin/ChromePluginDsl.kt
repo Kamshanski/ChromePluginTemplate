@@ -5,3 +5,7 @@ fun Project.chromePlugin(setup: ChromePluginSpec.() -> Unit) {
 	spec.setup()
 	spec.configureProject()
 }
+
+fun Project.chromePlugin() {
+	chromePlugin {}
+}

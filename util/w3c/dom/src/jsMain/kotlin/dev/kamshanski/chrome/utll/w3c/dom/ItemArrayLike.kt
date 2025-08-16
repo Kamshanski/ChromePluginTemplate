@@ -1,7 +1,9 @@
-package dev.kamshanski.chrome.utll.dom
+package dev.kamshanski.chrome.utll.w3c.dom
 
 import org.w3c.dom.ItemArrayLike
 import org.w3c.dom.asList
+
+fun ItemArrayLike<*>.isEmpty(): Boolean = length == 0
 
 fun <T> ItemArrayLike<T>.first(): T =
 	firstOrNull() ?: error("No first element in collection")

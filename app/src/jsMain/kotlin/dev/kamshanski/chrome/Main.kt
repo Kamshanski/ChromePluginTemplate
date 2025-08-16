@@ -1,23 +1,24 @@
 package dev.kamshanski.chrome
 
 import dev.kamshanski.chrome.component.chrome.bookmarks.KChromeBookmarks
-import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
 import dev.kamshanski.chrome.component.chrome.bookmarks.childList
+import dev.kamshanski.chrome.component.chrome.bookmarks.findBookmarksBarNodeOrNull
 import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.test.ConstantsTest
-import dev.kamshanski.chrome.utll.dom.firstElementById
-import kotlinx.browser.document
-import kotlinx.browser.window
+import dev.kamshanski.chrome.utll.kotlinwrappers.dom.firstElementById
+import dev.kamshanski.chrome.utll.kotlinwrappers.dom.firstOrNull
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.w3c.dom.GlobalEventHandlers
-import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLHeadingElement
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLParagraphElement
-import org.w3c.dom.events.Event
+import web.dom.document
+import web.events.EventHandler
+import web.html.HTMLButtonElement
+import web.html.HTMLHeadingElement
+import web.html.HTMLInputElement
+import web.html.HTMLParagraphElement
+import web.window.window
 
+val container: HTMLHeadingElement get() = document.firstElementById("container")
 val header: HTMLHeadingElement get() = document.firstElementById("header")
 val okButton: HTMLButtonElement get() = document.firstElementById("ok_button")
 val numberInput: HTMLInputElement get() = document.firstElementById("number_input")
@@ -25,22 +26,31 @@ val bookmarksCountButton: HTMLButtonElement get() = document.firstElementById("b
 val bookmarksCountResult: HTMLParagraphElement get() = document.firstElementById("bookmarks_count_result")
 val enumTestButton: HTMLButtonElement get() = document.firstElementById("enum_test_button")
 val enumTestResult: HTMLParagraphElement get() = document.firstElementById("enum_test_result")
+val custom_elements_availability_button: HTMLParagraphElement get() = document.firstElementById("custom_elements_availability_button")
+
+fun registerCustomElements() {
+	MyHtmlElement.register()
+	MyHtmlInflatedElement.register()
+}
 
 fun main() {
 	i { "Extension script loaded" }
 
+	registerCustomElements()
+
 	val scope = MainScope()
-	window.onload = {
+
+	window.onload = EventHandler {
 		i { "Extension default popup opened" }
 
 		val originalHeaderText = header.textContent ?: ""
 
-		okButton.setOnClickListener {
+		okButton.onclick = EventHandler {
 			val inputValue = numberInput.value.toIntOrNull()
 			header.textContent = originalHeaderText + " " + inputValue
 		}
 
-		bookmarksCountButton.setOnClickListener {
+		bookmarksCountButton.onclick = EventHandler {
 			scope.launch {
 				with(KChromeBookmarks) {
 					val root = getTree().first()
@@ -54,7 +64,7 @@ fun main() {
 				}
 			}
 		}
-		enumTestButton.setOnClickListener {
+		enumTestButton.onclick = EventHandler {
 			val result = ConstantsTest().test()
 			val message = if (result.isEmpty()) {
 				"Всё круто"
@@ -69,12 +79,19 @@ fun main() {
 			}
 			enumTestResult.innerHTML = message
 		}
+
+		custom_elements_availability_button.onclick = EventHandler {
+			val e1 = document.getElementsByTagName(MyHtmlElement.tag).firstOrNull()
+			val e2 = document.getElementsByTagName(MyHtmlInflatedElement.tag).firstOrNull()
+			val elementsAvailable = e1 != null || e2 != null
+
+			if (elementsAvailable) {
+				e1?.let { container.removeChild(it) }
+				e2?.let { container.removeChild(it) }
+			} else {
+				container.appendChild(MyHtmlElement())
+				container.appendChild(MyHtmlInflatedElement())
+			}
+		}
 	}
 }
-
-fun GlobalEventHandlers.setOnClickListener(listener: (event: Event) -> Unit) {
-	this.onclick = {
-		listener(it)
-	}
-}
-
