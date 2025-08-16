@@ -46,6 +46,7 @@ kotlin {
 			implementation(project(":component-chrome"))
 			implementation(project(":component-html-customelement"))
 
+			implementation(project(":util-kotlinwrappers-dom"))
 			implementation(project(":util-common"))
 			implementation(project(":util-w3c-dom"))
 

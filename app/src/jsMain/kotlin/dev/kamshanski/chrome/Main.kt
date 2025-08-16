@@ -7,6 +7,7 @@ import dev.kamshanski.chrome.component.chrome.bookmarks.isFile
 import dev.kamshanski.chrome.component.log.i
 import dev.kamshanski.chrome.test.ConstantsTest
 import dev.kamshanski.chrome.utll.kotlinwrappers.dom.firstElementById
+import dev.kamshanski.chrome.utll.kotlinwrappers.dom.firstOrNull
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import web.dom.document
@@ -17,6 +18,7 @@ import web.html.HTMLInputElement
 import web.html.HTMLParagraphElement
 import web.window.window
 
+val container: HTMLHeadingElement get() = document.firstElementById("container")
 val header: HTMLHeadingElement get() = document.firstElementById("header")
 val okButton: HTMLButtonElement get() = document.firstElementById("ok_button")
 val numberInput: HTMLInputElement get() = document.firstElementById("number_input")
@@ -24,9 +26,17 @@ val bookmarksCountButton: HTMLButtonElement get() = document.firstElementById("b
 val bookmarksCountResult: HTMLParagraphElement get() = document.firstElementById("bookmarks_count_result")
 val enumTestButton: HTMLButtonElement get() = document.firstElementById("enum_test_button")
 val enumTestResult: HTMLParagraphElement get() = document.firstElementById("enum_test_result")
+val custom_elements_availability_button: HTMLParagraphElement get() = document.firstElementById("custom_elements_availability_button")
+
+fun registerCustomElements() {
+	MyHtmlElement.register()
+	MyHtmlInflatedElement.register()
+}
 
 fun main() {
 	i { "Extension script loaded" }
+
+	registerCustomElements()
 
 	val scope = MainScope()
 
@@ -68,6 +78,20 @@ fun main() {
 				}
 			}
 			enumTestResult.innerHTML = message
+		}
+
+		custom_elements_availability_button.onclick = EventHandler {
+			val e1 = document.getElementsByTagName(MyHtmlElement.tag).firstOrNull()
+			val e2 = document.getElementsByTagName(MyHtmlInflatedElement.tag).firstOrNull()
+			val elementsAvailable = e1 != null || e2 != null
+
+			if (elementsAvailable) {
+				e1?.let { container.removeChild(it) }
+				e2?.let { container.removeChild(it) }
+			} else {
+				container.appendChild(MyHtmlElement())
+				container.appendChild(MyHtmlInflatedElement())
+			}
 		}
 	}
 }
